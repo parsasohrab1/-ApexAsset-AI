@@ -1,0 +1,51 @@
+############################
+# OS / Editor
+############################
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+############################
+# Node / Frontend
+############################
+node_modules/
+frontend/node_modules/
+dist/
+build/
+frontend/dist/
+frontend/build/
+
+############################
+# Python
+############################
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+############################
+# Logs / Temp
+############################
+*.log
+*.tmp
+
+############################
+# Environment / Secrets
+############################
+.env
+.env.*
+
+############################
+# Data outputs (generated)
+############################
+synthetic_data_output/
+complete_asset_data/
+*.parquet
+*.h5
+*.hdf5
+*.sqlite
+*.db
+data_visualization.png

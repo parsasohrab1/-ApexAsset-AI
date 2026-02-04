@@ -35,6 +35,49 @@ The system encompasses five interconnected modules:
 - OPC UA: Industrial interoperability standard
 - NIST Framework: Cybersecurity framework
 
+## **1.5 تثبیت نیازمندی‌ها و دامنه (SRS نهایی، اولویت‌بندی)**
+
+### **دامنه نهایی (Scope)**
+**در محدوده (In-Scope):**
+- ماژول‌های پنج‌گانه چرخه عمر دارایی (Exploration, Development, Production, Maintenance, Decommissioning)
+- قابلیت‌های مشترک پلتفرم (داشبوردها، گزارش‌گیری، اعلان‌ها، همکاری تیمی)
+- الزامات غیرعملکردی (Performance, Security, Reliability, Usability, Scalability, Maintainability, Portability)
+- یکپارچه‌سازی استاندارد با سیستم‌های صنعتی (SCADA, Historian, ERP, CMMS)
+
+**خارج از محدوده (Out-of-Scope) برای نسخه اولیه:**
+- پیاده‌سازی کامل همه مدل‌های AI ذکرشده (تنها مدل‌های اولویت بالا در فازهای اولیه)
+- پشتیبانی از همه پروتکل‌های صنعتی کم‌اولویت (مانند Serial RS-485)
+- اپلیکیشن‌های موبایل کامل (در فازهای پایانی برنامه‌ریزی شده)
+
+### **اولویت‌بندی نهایی (MoSCoW)**
+**Must (الزامی برای نسخه اولیه):**
+- احراز هویت و RBAC (SEC-001/002)
+- داشبوردهای پایه و فریم‌ورک ویجت‌ها (FR-COM-001)
+- پایش بلادرنگ و هشدارها (FR-PROD-001, FR-COM-003)
+- گزارش‌گیری زمان‌بندی‌شده و خروجی استاندارد (FR-COM-004)
+- مسیر داده زمان‌سری و حداقل یکپارچه‌سازی داده‌ای صنعتی (DS-001, SI-001, SI-003)
+
+**Should (مهم اما قابل موکول):**
+- تحلیل‌های کلیدی تولید و نگهداشت (FR-PROD-002/003, FR-MNT-001/002)
+- قابلیت‌های اقتصادی حیاتی (FR-DEV-004)
+- ابزارهای اصلی Exploration (FR-EXP-001/002)
+- سازگاری‌های مقیاس‌پذیری و قابلیت حمل سطح بالا (SCA-001/002, PORT-001/002)
+
+**Could (در صورت زمان/منابع):**
+- ویژگی‌های پیشرفته 3D و Visualization (COM-002.4, EXP-001.5)
+- مدل‌های AI پیشرفته و بهینه‌سازی‌های سطح بالا (PROD-005, DEV-005)
+- قابلیت‌های همکاری گسترده‌تر (COM-005.3/005.4)
+
+**Won’t (خارج از نسخه اولیه):**
+- تمامی پروتکل‌های کم‌کاربرد صنعتی (HI-006)
+- تضمین همه استانداردهای صنعتی به‌صورت کامل در نسخه اول (برخی به‌صورت تدریجی)
+
+### **معیارهای پذیرش نسخه اولیه**
+- زمان بارگذاری داشبورد < 3 ثانیه (PERF-001)
+- نرخ بروزرسانی داده 1 ثانیه (PERF-002)
+- احراز هویت و کنترل دسترسی نقش‌محور فعال
+- حداقل یک جریان کامل End-to-End: داده → داشبورد → هشدار → گزارش
+
 ## **2. Overall Description**
 
 ### **2.1 Product Perspective**
@@ -865,6 +908,43 @@ High Availability:
   - Disaster recovery site
 ```
 
+## **4.4 معماری فنی و طراحی UI/UX (Frontend/Backend/Data)**
+
+### **4.4.1 معماری Frontend**
+- **فریم‌ورک و ساختار:** React 18 + TypeScript، معماری ماژولار (feature-based)
+- **State Management:** Redux Toolkit برای داده‌های سراسری، React Query برای داده‌های سرور
+- **Routing:** React Router v6 با lazy loading برای ماژول‌ها
+- **Styling:** سیستم تم (Light/Dark/High-Contrast) و طراحی مبتنی بر توکن‌ها
+- **Visualization:** نمودارها (Recharts/D3)، نقشه‌ها (Mapbox/Deck.gl)، 3D (Three.js)
+- **Performance:** کَش سمت کلاینت، virtualization برای لیست‌های بزرگ، code splitting
+
+### **4.4.2 معماری Backend**
+- **الگو:** Microservices + API Gateway
+- **خدمات کلیدی:** Auth, Data Ingestion, Time-Series, Spatial, Reporting, Notification
+- **ارتباطات:** REST/GraphQL برای APIهای عمومی، WebSocket برای استریمینگ بلادرنگ
+- **امنیت:** OAuth2/SAML، RBAC، ثبت وقایع امنیتی و ردیابی کامل
+- **Observability:** لاگ ساخت‌یافته، متریک‌ها، tracing توزیع‌شده
+
+### **4.4.3 معماری داده (Data)**
+- **Time-Series:** InfluxDB/TimescaleDB برای داده‌های 1Hz
+- **Spatial:** PostGIS برای داده‌های مکانی و تحلیل جغرافیایی
+- **Graph:** Neo4j برای روابط دارایی‌ها و سلسله‌مراتب
+- **Document/Search:** MongoDB + Elasticsearch برای اسناد و جست‌وجوی سریع
+- **Storage:** Hot/Warm/Cold tiers، نگهداشت بلندمدت، پارتیشن‌بندی زمانی
+- **Pipelines:** ETL/ELT با پردازش جریان داده برای پایش بلادرنگ
+
+### **4.4.4 طراحی UI/UX**
+- **اصول طراحی:** سادگی، قابلیت پیش‌بینی، کاهش کلیک‌های حیاتی
+- **اطلاعات‌محور:** داشبوردهای نقش‌محور، فیلترهای واضح، Drill-down منطقی
+- **پاسخ‌گرا:** سازگاری کامل با دسکتاپ/تبلت/موبایل
+- **هشدار و وضعیت:** کد رنگ استاندارد (RAG)، اعلان‌های قابل پیگیری
+- **خطاها و وضعیت‌ها:** Empty/Loading/Error states تعریف‌شده و یکپارچه
+
+### **4.4.5 Design System و دسترس‌پذیری**
+- **کامپوننت‌های پایه:** Table, Chart, Form, Modal, Card, KPI Tile
+- **استانداردها:** WCAG 2.1 AA، کنتراست مناسب، پشتیبانی از کیبورد
+- **قابلیت بومی‌سازی:** چندزبانه و راست‌به‌چپ (RTL) در نسخه‌های منطقه‌ای
+
 ## **5. Dashboard Design Specifications**
 
 ### **5.1 Exploration Dashboard**
@@ -1501,6 +1581,38 @@ KPIs: User adoption, feature usage, value metrics
 Tools: Custom analytics, Google Analytics
 Reporting: Weekly business metrics reports
 Alerts: Business process deviation alerts
+```
+
+### **9.4 Security, Monitoring, and Logging**
+
+#### **Security Controls (Runtime)**
+```
+Identity: SSO with OAuth2/SAML, MFA for privileged roles
+Access: Least-privilege RBAC, time-bound access for vendors
+Network: WAF + IDS/IPS, zero-trust segmentation for services
+Data: TLS 1.3 in transit, AES-256 at rest, KMS key rotation
+```
+
+#### **Observability & Telemetry**
+```
+Tracing: End-to-end request tracing with OpenTelemetry
+Metrics: RED/USE golden signals for APIs and services
+SLOs: Error budget policies for critical services
+```
+
+#### **Logging Strategy**
+```
+Format: Structured JSON logs with correlation IDs
+Retention: Hot 30 days, warm 180 days, archive 7+ years
+PII: Redaction & tokenization for sensitive fields
+Audit: Immutable audit logs for admin and data access
+```
+
+#### **Incident Response**
+```
+Detection: SIEM integration with alert severity levels
+Response: On-call rotation with runbooks per service
+Postmortems: RCA within 48 hours for SEV-1/2
 ```
 
 ### **9.3 Support Structure**
