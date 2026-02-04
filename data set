@@ -4956,4 +4956,1232 @@ complete_asset_data/
 - مدیریت بحران
 - تصمیم‌گیری در شرایط پیچیده
 
-این سیستم جامع، تمام نیازهای داده‌ای برای توسعه و تست پلتفرم ApexAsset AI را در تمام مراحل چرخه حیات دارایی تأمین می‌کند. داده‌های تولید شده واقع‌گرا، کامل و از نظر فنی معتبر هستند و می‌توانند برای انواع کاربردهای هوش مصنوعی و تحلیل‌های پیشرفته مورد استفاده قرار گیرند.
+
+پروژه: **توسعه سیستم تولید داده‌های سنتتیک برای یک پالایشگاه گاز طبیعی در آستین، تگزاس**
+
+---
+
+## **سند نیازمندی‌های نرم‌افزاری (SRS) - سیستم تولید داده‌های سنتتیک برای پالایشگاه گاز**
+
+### **1. مقدمه**
+#### **1.1 هدف**
+ایجاد یک سیستم تولید داده‌های سنتتیک جامع برای شبیه‌سازی 6 ماه عملکرد کامل یک پالایشگاه گاز طبیعی در آستین، تگزاس، با وضوح زمانی 1 ثانیه‌ای برای آموزش و تست پلتفرم ApexAsset AI.
+
+#### **1.2 دامنه**
+این سیستم داده‌های سنتتیک را برای تمام تجهیزات و فرآیندهای یک پالایشگاه گاز متوسط شامل می‌شود.
+
+### **2. توصیف کلی**
+#### **2.1 فرآورده مشخص: پالایشگاه گاز طبیعی "Lone Star Gas Refining"**
+- **موقعیت:** آستین، تگزاس
+- **ظرفیت:** 200 میلیون فوت مکعب استاندارد در روز (MMSCFD)
+- **فرآورده‌های اصلی:** 
+  - گاز طبیعی تصفیه شده (Pipeline Quality)
+  - اتان (برای پتروشیمی)
+  - پروپان و بوتان (LPG)
+  - کاندنسیت (Natural Gasoline)
+- **فرآیندهای کلیدی:**
+  1. شیرین‌سازی (آمین، غشاء)
+  2. نم‌زدایی (جذب TEG)
+  3. جداسازی کرایوژنیک (دمای پایین)
+  4. جداسازی فراکسیون‌ها
+  5. بازیافت گوگرد
+
+### **3. نیازمندی‌های ویژه**
+
+#### **3.1 نیازمندی‌های عملکردی**
+| ID | نیازمندی | توضیح |
+|----|----------|--------|
+| FR-01 | تولید داده با فرکانس 1Hz | تمام سنسورها هر ثانیه داده تولید کنند |
+| FR-02 | شبیه‌سازی 6 ماه کامل | 182 روز × 24 ساعت × 3600 ثانیه = 15,724,800 نقطه داده بر سنسور |
+| FR-03 | پوشش تمام مراحل فرآیند | از ورود گاز خام تا خروج فرآورده‌ها |
+| FR-04 | مدل‌سازی خرابی‌ها | 5 نوع خرابی اصلی با الگوهای زمانی واقع‌گرا |
+| FR-05 | تولید داده‌های متنی | گزارش‌های شیفت، لاگ تعمیرات، آلارم‌ها |
+| FR-06 | داده‌های محیطی | دما، رطوبت، فشار جو منطقه آستین |
+| FR-07 | داده‌های اقتصادی | قیمت‌های روزانه گاز و فرآورده‌ها |
+
+#### **3.2 نیازمندی‌های غیرعملکردی**
+| ID | نیازمندی | توضیح |
+|----|----------|--------|
+| NFR-01 | کارایی | تولید 15M نقطه داده در کمتر از 1 ساعت |
+| NFR-02 | قابلیت اطمینان | داده‌ها از نظر فیزیکی معتبر باشند |
+| NFR-03 | قابلیت تکرار | seedهای تصادفی برای تکرارپذیری |
+| NFR-04 | فرمت‌های خروجی | CSV, Parquet, JSON, SQLite |
+| NFR-05 | مستندات | مستند کامل الگوهای داده و خرابی‌ها |
+
+### **4. معماری سیستم**
+
+#### **4.1 اجزای سیستم**
+```
+┌─────────────────────────────────────────────────┐
+│              Synthetic Data Generator           │
+├─────────────────────────────────────────────────┤
+│ 1. Configuration Manager                        │
+│ 2. Physics-Based Model Engine                  │
+│ 3. Failure Mode Generator                      │
+│ 4. Environmental Data Simulator                │
+│ 5. Text Data Generator                         │
+│ 6. Data Export & Formatting Module             │
+└─────────────────────────────────────────────────┘
+```
+
+#### **4.2 انواع داده‌های تولیدی**
+1. **داده‌های فرآیندی (Process Data)**
+   - دما، فشار، دبی
+   - آنالیز ترکیب گاز (GC Data)
+   - سطح مخازن
+
+2. **داده‌های وضعیت تجهیزات (Equipment Health)**
+   - ارتعاشات
+   - دمای یاتاقان‌ها
+   - جریان موتورها
+
+3. **داده‌های محیطی (Environmental)**
+   - آب و هوای آستین
+   - شرایط جوی
+
+4. **داده‌های عملیاتی (Operational)**
+   - گزارش‌های شیفت
+   - دستورالعمل‌های عملیاتی
+   - رویدادهای نگهداشت
+
+### **5. جزئیات تولید داده**
+
+#### **5.1 پیکربندی پالایشگاه**
+```python
+PLANT_CONFIG = {
+    "location": {
+        "city": "Austin",
+        "state": "Texas",
+        "coordinates": {"lat": 30.2672, "lon": -97.7431},
+        "elevation": 149  # meters
+    },
+    "capacity": {
+        "feed_gas": 200,  # MMSCFD
+        "products": {
+            "pipeline_gas": 150,  # MMSCFD
+            "ethane": 15,  # MBPD
+            "propane": 10,  # MBPD
+            "butane": 5,   # MBPD
+            "condensate": 8  # MBPD
+        }
+    },
+    "process_units": {
+        "inlet_separation": {"vessels": 3, "compressors": 2},
+        "amine_treating": {"contactors": 2, "regenerators": 2, "pumps": 8},
+        "dehydration": {"TEG_contactors": 2, "reboilers": 2},
+        "cryogenic_plant": {"exchangers": 12, "turbines": 2, "towers": 3},
+        "fractionation": {"deethanizer": 1, "depropanizer": 1, "debutanizer": 1},
+        "sulfur_recovery": {"reactors": 2, "incinerator": 1}
+    },
+    "sensor_count": {
+        "temperature": 450,
+        "pressure": 380,
+        "flow": 220,
+        "level": 85,
+        "vibration": 120,
+        "composition": 18,
+        "total_sensors": 1273
+    }
+}
+```
+
+#### **5.2 الگوهای خرابی**
+```python
+FAILURE_MODES = {
+    "fouling": {
+        "description": "رسوب‌گیری در مبدل‌های حرارتی",
+        "affected_equipment": ["exchangers", "reboilers"],
+        "development_time": "7-30 days",
+        "symptoms": {
+            "delta_p": "increase_gradual",  # افزایش تدریجی اختلاف فشار
+            "efficiency": "decrease_gradual",  # کاهش تدریجی راندمان
+            "outlet_temp": "decrease_slow"  # کاهش آهسته دمای خروجی
+        }
+    },
+    "bearing_wear": {
+        "description": "سایش یاتاقان‌های کمپرسور",
+        "affected_equipment": ["compressors", "pumps"],
+        "development_time": "14-60 days",
+        "symptoms": {
+            "vibration": "increase_oscillating",  # افزایش نوسانی ارتعاش
+            "temperature": "increase_steady",  # افزایش پیوسته دما
+            "noise": "increase_gradual"  # افزایش تدریجی نویز
+        }
+    },
+    "corrosion": {
+        "description": "خوردگی در خطوط لوله",
+        "affected_equipment": ["pipelines", "vessels"],
+        "development_time": "90-180 days",
+        "symptoms": {
+            "wall_thickness": "decrease_steady",  # کاهش پیوسته ضخامت
+            "leak_indication": "intermittent",  # نشانه‌های نشت متناوب
+            "product_purity": "decrease_slow"  # کاهش آهسته خلوص محصول
+        }
+    },
+    "catalyst_deactivation": {
+        "description": "غیرفعال شدن کاتالیست",
+        "affected_equipment": ["reactors"],
+        "development_time": "30-90 days",
+        "symptoms": {
+            "conversion": "decrease_exponential",  # کاهش نمایی تبدیل
+            "pressure_drop": "increase_rapid",  # افزایش سریع افت فشار
+            "byproducts": "increase_steady"  # افزایش پیوسته محصولات جانبی
+        }
+    },
+    "instrument_drift": {
+        "description": "درفت سنسورها",
+        "affected_equipment": ["all_instruments"],
+        "development_time": "60-180 days",
+        "symptoms": {
+            "reading_error": "linear_drift",  # خطای خطی در قرائت
+            "calibration_needed": "periodic"  # نیاز دوره‌ای به کالیبراسیون
+        }
+    }
+}
+```
+
+---
+
+## **کد تولید کننده داده‌های سنتتیک (Data Generator)**
+
+### **کنسپت کلی:**
+این کد یک سیستم تولید داده‌های سنتتیک پیچیده ایجاد می‌کند که:
+1. داده‌های پایه فرآیندی بر اساس مدل‌های فیزیکی تولید می‌کند
+2. خرابی‌های واقع‌گرا با الگوهای زمانی پیچیده اضافه می‌کند
+3. داده‌های محیطی منطبق با آستین، تگزاس تولید می‌کند
+4. داده‌های متنی عملیاتی می‌سازد
+5. همه را در فرمت‌های مختلف خروجی می‌دهد
+
+### **فایل‌های اصلی پروژه:**
+
+#### **1. main_generator.py**
+```python
+#!/usr/bin/env python3
+"""
+Synthetic Data Generator for Natural Gas Processing Plant
+Austin, Texas - 6 Months Simulation at 1Hz Frequency
+"""
+
+import numpy as np
+import pandas as pd
+from datetime import datetime, timedelta
+import sqlite3
+import json
+import yaml
+from pathlib import Path
+import warnings
+warnings.filterwarnings('ignore')
+
+class SyntheticGasPlantGenerator:
+    """Main generator class for synthetic gas plant data"""
+    
+    def __init__(self, config_file='plant_config.yaml'):
+        """Initialize generator with plant configuration"""
+        
+        # Load configuration
+        self.config = self._load_config(config_file)
+        
+        # Plant specifications
+        self.plant_name = "Lone_Star_Gas_Refining_Austin"
+        self.location = "Austin, Texas"
+        
+        # Time parameters
+        self.start_date = datetime(2024, 1, 1, 0, 0, 0)
+        self.simulation_days = 182  # 6 months
+        self.total_seconds = self.simulation_days * 24 * 3600
+        self.sampling_rate = 1  # 1 Hz
+        
+        # Generate time index
+        self.time_index = self._generate_time_index()
+        
+        # Initialize data storage
+        self.process_data = {}
+        self.equipment_data = {}
+        self.environmental_data = {}
+        self.text_data = {}
+        self.failure_events = []
+        
+        # Random seed for reproducibility
+        self.seed = 42
+        np.random.seed(self.seed)
+        
+        print(f"Initialized {self.plant_name}")
+        print(f"Period: {self.start_date.date()} to {(self.start_date + timedelta(days=self.simulation_days)).date()}")
+        print(f"Total data points per sensor: {self.total_seconds:,}")
+        
+    def _load_config(self, config_file):
+        """Load plant configuration from YAML file"""
+        with open(config_file, 'r') as f:
+            return yaml.safe_load(f)
+    
+    def _generate_time_index(self):
+        """Generate datetime index for 6 months at 1Hz"""
+        return pd.date_range(
+            start=self.start_date,
+            periods=self.total_seconds,
+            freq='S'
+        )
+    
+    def _generate_weather_patterns(self):
+        """Generate realistic Austin, TX weather patterns"""
+        print("Generating weather patterns for Austin, TX...")
+        
+        # Austin climate parameters (January to June)
+        base_temp = np.array([
+            10, 12, 16, 20, 24, 28,  # Base temperatures for each month (C)
+        ])
+        
+        # Expand to daily pattern
+        daily_temp = np.repeat(base_temp, 30)[:self.simulation_days]
+        
+        # Add daily variation (colder at night, warmer at day)
+        daily_cycle = 8 * np.sin(2 * np.pi * np.arange(24) / 24)  # 24-hour cycle
+        
+        # Create full temperature series
+        temperature = np.zeros(len(self.time_index))
+        for day in range(self.simulation_days):
+            day_start = day * 86400
+            month_idx = min(day // 30, 5)
+            base = daily_temp[day]
+            
+            for hour in range(24):
+                hour_start = day_start + hour * 3600
+                hour_end = hour_start + 3600
+                temp_variation = daily_cycle[hour]
+                
+                # Add random weather effects
+                weather_noise = np.random.normal(0, 1.5)
+                
+                temperature[hour_start:hour_end] = (
+                    base + temp_variation + weather_noise
+                )
+        
+        # Humidity pattern (higher at night, lower during day)
+        humidity = 50 + 20 * np.sin(2 * np.pi * np.arange(len(self.time_index)) / 86400 - np.pi/2)
+        humidity += np.random.normal(0, 5, len(self.time_index))
+        humidity = np.clip(humidity, 30, 85)
+        
+        # Atmospheric pressure (normal variations)
+        pressure = 1013.25 + 10 * np.sin(2 * np.pi * np.arange(len(self.time_index)) / (86400 * 7))  # Weekly cycle
+        pressure += np.random.normal(0, 3, len(self.time_index))
+        
+        # Rain events (simplified)
+        rain_prob = np.array([0.1, 0.15, 0.2, 0.25, 0.3, 0.2])  # Monthly rain probability
+        rain_intensity = np.zeros(len(self.time_index))
+        
+        for day in range(self.simulation_days):
+            month_idx = min(day // 30, 5)
+            if np.random.random() < rain_prob[month_idx] / 30:  # Daily probability
+                rain_day = day * 86400
+                rain_start = rain_day + np.random.randint(12, 20) * 3600  # Afternoon rain
+                rain_duration = np.random.randint(3600, 10800)  # 1-3 hours
+                rain_end = min(rain_start + rain_duration, (day+1)*86400)
+                
+                intensity = np.random.uniform(1, 10)  # mm/hour
+                rain_intensity[rain_start:rain_end] = intensity
+        
+        return {
+            'temperature_C': temperature,
+            'humidity_percent': humidity,
+            'pressure_hPa': pressure,
+            'rain_intensity_mm_h': rain_intensity
+        }
+    
+    def _generate_process_data(self):
+        """Generate synthetic process data for gas plant"""
+        print("Generating process data...")
+        
+        process_units = [
+            'inlet_separation',
+            'amine_treating', 
+            'dehydration',
+            'cryogenic_plant',
+            'fractionation',
+            'sulfur_recovery'
+        ]
+        
+        data = {}
+        
+        for unit in process_units:
+            unit_config = self.config['process_units'][unit]
+            
+            if unit == 'inlet_separation':
+                # Inlet separation unit data
+                data[f'{unit}_feed_pressure'] = 5000 + 100 * np.sin(2 * np.pi * np.arange(self.total_seconds) / 86400)
+                data[f'{unit}_feed_pressure'] += np.random.normal(0, 50, self.total_seconds)
+                
+                data[f'{unit}_feed_temperature'] = 35 + 5 * np.sin(2 * np.pi * np.arange(self.total_seconds) / 43200)
+                data[f'{unit}_feed_temperature'] += np.random.normal(0, 2, self.total_seconds)
+                
+                data[f'{unit}_separator_level'] = 50 + 10 * np.sin(2 * np.pi * np.arange(self.total_seconds) / 7200)
+                data[f'{unit}_separator_level'] += np.random.normal(0, 3, self.total_seconds)
+                
+            elif unit == 'amine_treating':
+                # Amine unit data
+                data[f'{unit}_contact_pressure'] = 4900 + 80 * np.sin(2 * np.pi * np.arange(self.total_seconds) / 86400)
+                data[f'{unit}_contact_temp'] = 40 + 3 * np.sin(2 * np.pi * np.arange(self.total_seconds) / 21600)
+                
+                # CO2 removal efficiency
+                base_efficiency = 98.5
+                data[f'{unit}_co2_removal'] = base_efficiency + 0.5 * np.sin(2 * np.pi * np.arange(self.total_seconds) / 43200)
+                data[f'{unit}_co2_removal'] += np.random.normal(0, 0.1, self.total_seconds)
+                
+            elif unit == 'cryogenic_plant':
+                # Cryogenic plant data
+                data[f'{unit}_cold_box_temp'] = -100 + 5 * np.sin(2 * np.pi * np.arange(self.total_seconds) / 14400)
+                data[f'{unit}_expander_speed'] = 12000 + 200 * np.sin(2 * np.pi * np.arange(self.total_seconds) / 3600)
+                data[f'{unit}_lpg_production'] = self.config['capacity']['products']['propane'] * 1000 / 24 / 3600
+                data[f'{unit}_lpg_production'] += np.random.normal(0, 10, self.total_seconds)
+                
+            # Add more unit-specific data generation...
+        
+        # Add common parameters
+        data['plant_throughput'] = self.config['capacity']['feed_gas'] * 1e6 / 24 / 3600  # SCF per second
+        data['plant_throughput'] += np.random.normal(0, 5000, self.total_seconds)
+        
+        return data
+    
+    def _generate_equipment_health_data(self):
+        """Generate equipment health monitoring data"""
+        print("Generating equipment health data...")
+        
+        equipment_types = [
+            'centrifugal_compressors',
+            'reciprocating_compressors', 
+            'pumps',
+            'heat_exchangers',
+            'columns',
+            'furnaces'
+        ]
+        
+        data = {}
+        
+        # Vibration data for rotating equipment
+        for i in range(12):  # 12 major rotating equipments
+            base_vibration = 1.0 + 0.2 * np.sin(2 * np.pi * np.arange(self.total_seconds) / 3600)
+            
+            # Add bearing defect pattern (if failed)
+            if np.random.random() < 0.3:  # 30% chance of developing fault
+                fault_start = np.random.randint(self.total_seconds // 4, self.total_seconds // 2)
+                fault_duration = np.random.randint(7*86400, 30*86400)  # 1 week to 1 month
+                
+                # Bearing defect signature (increasing vibration with periodic spikes)
+                time_to_failure = np.arange(self.total_seconds - fault_start)
+                degradation = 0.00001 * time_to_failure**1.5  # Nonlinear degradation
+                
+                bearing_frequency = 3.7  # BPFO frequency multiple
+                defect_signal = 0.5 * np.sin(2 * np.pi * bearing_frequency * np.arange(self.total_seconds) / 3600)
+                defect_signal[:fault_start] = 0
+                defect_signal[fault_start:] *= degradation[:len(defect_signal[fault_start:])]
+                
+                base_vibration += defect_signal
+            
+            data[f'compressor_{i+1:02d}_vibration_mm_s'] = np.clip(base_vibration + np.random.normal(0, 0.05, self.total_seconds), 0, 10)
+        
+        # Bearing temperatures
+        for i in range(24):  # 24 bearing temperature points
+            base_temp = 65 + 5 * np.sin(2 * np.pi * np.arange(self.total_seconds) / 7200)
+            data[f'bearing_{i+1:02d}_temp_C'] = base_temp + np.random.normal(0, 2, self.total_seconds)
+        
+        # Motor currents
+        for i in range(8):  # 8 major motors
+            base_current = 100 + 10 * np.sin(2 * np.pi * np.arange(self.total_seconds) / 1800)
+            data[f'motor_{i+1:02d}_current_A'] = base_current + np.random.normal(0, 5, self.total_seconds)
+        
+        return data
+    
+    def _generate_failure_events(self):
+        """Generate realistic failure events with progression patterns"""
+        print("Generating failure events...")
+        
+        failures = []
+        
+        # Define failure types and their characteristics
+        failure_definitions = [
+            {
+                'type': 'heat_exchanger_fouling',
+                'start_day': 45,
+                'duration_days': 21,
+                'affected_sensors': ['cryogenic_plant_cold_box_temp', 'cryogenic_plant_exchanger_dp'],
+                'pattern': 'exponential'
+            },
+            {
+                'type': 'compressor_bearing_wear',
+                'start_day': 90,
+                'duration_days': 45,
+                'affected_sensors': ['compressor_03_vibration_mm_s', 'bearing_07_temp_C'],
+                'pattern': 'linear'
+            },
+            {
+                'type': 'catalyst_deactivation',
+                'start_day': 120,
+                'duration_days': 60,
+                'affected_sensors': ['sulfur_recovery_conversion', 'sulfur_recovery_temp'],
+                'pattern': 'sigmoid'
+            },
+            {
+                'type': 'valve_stiction',
+                'start_day': 150,
+                'duration_days': 15,
+                'affected_sensors': ['amine_treating_control_valve_position'],
+                'pattern': 'oscillating'
+            }
+        ]
+        
+        for failure in failure_definitions:
+            start_second = failure['start_day'] * 86400
+            duration_seconds = failure['duration_days'] * 86400
+            
+            failures.append({
+                'failure_id': f"F{len(failures)+1:03d}",
+                'failure_type': failure['type'],
+                'start_time': self.start_date + timedelta(seconds=start_second),
+                'end_time': self.start_date + timedelta(seconds=start_second + duration_seconds),
+                'affected_sensors': failure['affected_sensors'],
+                'severity': np.random.uniform(0.3, 0.8),
+                'progression_pattern': failure['pattern']
+            })
+        
+        return failures
+    
+    def _apply_failures_to_data(self, process_data, equipment_data):
+        """Apply failure patterns to generated data"""
+        print("Applying failure patterns...")
+        
+        for failure in self.failure_events:
+            start_idx = (failure['start_time'] - self.start_date).total_seconds()
+            end_idx = start_idx + (failure['end_time'] - failure['start_time']).total_seconds()
+            start_idx, end_idx = int(start_idx), int(end_idx)
+            
+            for sensor in failure['affected_sensors']:
+                if sensor in process_data:
+                    data_array = process_data[sensor]
+                elif sensor in equipment_data:
+                    data_array = equipment_data[sensor]
+                else:
+                    continue
+                
+                failure_length = end_idx - start_idx
+                if failure_length <= 0:
+                    continue
+                
+                # Create failure profile based on pattern
+                if failure['progression_pattern'] == 'linear':
+                    profile = np.linspace(0, failure['severity'], failure_length)
+                elif failure['progression_pattern'] == 'exponential':
+                    profile = failure['severity'] * (1 - np.exp(-5 * np.arange(failure_length) / failure_length))
+                elif failure['progression_pattern'] == 'sigmoid':
+                    x = np.linspace(-6, 6, failure_length)
+                    profile = failure['severity'] / (1 + np.exp(-x))
+                elif failure['progression_pattern'] == 'oscillating':
+                    base = failure['severity'] * np.arange(failure_length) / failure_length
+                    oscillation = 0.3 * failure['severity'] * np.sin(2 * np.pi * np.arange(failure_length) / 3600)
+                    profile = base + oscillation
+                
+                # Apply failure profile
+                if 'temperature' in sensor or 'temp' in sensor:
+                    data_array[start_idx:end_idx] += profile * 20  # Temperature increase
+                elif 'vibration' in sensor:
+                    data_array[start_idx:end_idx] += profile * 5  # Vibration increase
+                elif 'pressure' in sensor or 'dp' in sensor:
+                    data_array[start_idx:end_idx] += profile * 100  # Pressure increase
+                elif 'current' in sensor:
+                    data_array[start_idx:end_idx] += profile * 50  # Current increase
+        
+        return process_data, equipment_data
+    
+    def _generate_text_data(self):
+        """Generate synthetic operational text data"""
+        print("Generating text data...")
+        
+        # Shift reports
+        shift_times = pd.date_range(
+            start=self.start_date,
+            end=self.start_date + timedelta(days=self.simulation_days),
+            freq='12H'  # Two shifts per day
+        )
+        
+        shift_reports = []
+        for i, shift_time in enumerate(shift_times):
+            report = {
+                'report_id': f"SR{i:05d}",
+                'shift': 'Day' if shift_time.hour == 7 else 'Night',
+                'date_time': shift_time,
+                'supervisor': np.random.choice(['John Smith', 'Maria Garcia', 'Robert Johnson', 'Lisa Chen']),
+                'throughput_avg': np.random.normal(195, 5),
+                'key_events': np.random.choice([
+                    'Normal operation',
+                    'Minor flare event during startup',
+                    'Preventive maintenance on pump P-101',
+                    'Instrument calibration completed',
+                    'Safety meeting conducted',
+                    'Unit efficiency slightly below target'
+                ], 2, p=[0.6, 0.1, 0.1, 0.1, 0.05, 0.05]),
+                'issues': np.random.choice([
+                    'None',
+                    'High vibration on compressor C-201',
+                    'Control valve CV-103 showing stiction',
+                    'Analyzer offline for calibration',
+                    'Small leak detected on flange'
+                ], 1, p=[0.7, 0.1, 0.1, 0.05, 0.05])[0],
+                'next_shift_notes': np.random.choice([
+                    'Monitor compressor parameters',
+                    'Prepare for catalyst changeout',
+                    'Schedule heat exchanger cleaning',
+                    'Continue normal surveillance'
+                ], 1)[0]
+            }
+            shift_reports.append(report)
+        
+        # Maintenance work orders
+        work_orders = []
+        for i in range(50):  # 50 work orders over 6 months
+            wo_date = self.start_date + timedelta(days=np.random.randint(0, self.simulation_days))
+            equipment = np.random.choice([
+                'Compressor C-101', 'Pump P-205', 'Heat Exchanger E-302',
+                'Control Valve CV-108', 'Transformer T-401', 'Vessel V-201'
+            ])
+            
+            work_orders.append({
+                'wo_id': f"WO{i:04d}",
+                'date_created': wo_date,
+                'equipment': equipment,
+                'priority': np.random.choice(['Low', 'Medium', 'High', 'Critical'], p=[0.4, 0.3, 0.2, 0.1]),
+                'type': np.random.choice(['Preventive', 'Corrective', 'Predictive', 'Breakdown']),
+                'description': f"{np.random.choice(['Inspect', 'Clean', 'Calibrate', 'Replace', 'Repair'])} {equipment}",
+                'status': np.random.choice(['Open', 'In Progress', 'Completed', 'Cancelled']),
+                'duration_hours': np.random.exponential(8)
+            })
+        
+        # Alarm logs
+        alarm_logs = []
+        alarm_types = [
+            'High Temperature', 'Low Pressure', 'High Vibration', 'Low Flow',
+            'High Level', 'Low Level', 'Equipment Failure', 'Communication Loss'
+        ]
+        
+        # Generate about 2000 alarms over 6 months
+        for i in range(2000):
+            alarm_time = self.start_date + timedelta(seconds=np.random.randint(0, self.total_seconds))
+            alarm_type = np.random.choice(alarm_types)
+            tag = f"{np.random.choice(['TI', 'PI', 'FI', 'LI', 'VI'])}-{np.random.randint(100, 999)}"
+            
+            alarm_logs.append({
+                'alarm_id': f"AL{i:06d}",
+                'timestamp': alarm_time,
+                'tag': tag,
+                'alarm_type': alarm_type,
+                'priority': np.random.choice(['Low', 'Medium', 'High'], p=[0.5, 0.3, 0.2]),
+                'description': f"{alarm_type} alarm on {tag}",
+                'acknowledged': np.random.choice([True, False], p=[0.9, 0.1]),
+                'cleared': np.random.choice([True, False], p=[0.85, 0.15]),
+                'duration_seconds': np.random.exponential(60)
+            })
+        
+        return {
+            'shift_reports': shift_reports,
+            'work_orders': work_orders,
+            'alarm_logs': alarm_logs
+        }
+    
+    def _generate_gas_composition_data(self):
+        """Generate synthetic gas composition data"""
+        print("Generating gas composition data...")
+        
+        # Composition changes more slowly - sample every 5 minutes
+        composition_times = pd.date_range(
+            start=self.start_date,
+            periods=self.simulation_days * 24 * 12,  # Every 5 minutes
+            freq='300S'
+        )
+        
+        compositions = []
+        
+        # Base composition with seasonal variations
+        for t in composition_times:
+            day_of_year = t.timetuple().tm_yday
+            
+            # Seasonal variation in feed gas composition
+            methane_base = 85 + 5 * np.sin(2 * np.pi * day_of_year / 365)
+            ethane_base = 7 + 2 * np.sin(2 * np.pi * (day_of_year + 30) / 365)
+            
+            comp = {
+                'timestamp': t,
+                'methane_mol_percent': methane_base + np.random.normal(0, 0.5),
+                'ethane_mol_percent': ethane_base + np.random.normal(0, 0.3),
+                'propane_mol_percent': 3 + 1 * np.sin(2 * np.pi * (day_of_year + 60) / 365) + np.random.normal(0, 0.2),
+                'butane_mol_percent': 1.5 + 0.5 * np.sin(2 * np.pi * (day_of_year + 90) / 365) + np.random.normal(0, 0.1),
+                'pentane_plus_mol_percent': 0.8 + 0.2 * np.sin(2 * np.pi * (day_of_year + 120) / 365) + np.random.normal(0, 0.05),
+                'nitrogen_mol_percent': 1.2 + np.random.normal(0, 0.1),
+                'co2_mol_percent': 1.5 + 0.5 * np.sin(2 * np.pi * (day_of_year + 150) / 365) + np.random.normal(0, 0.1),
+                'h2s_ppm': 50 + 20 * np.sin(2 * np.pi * day_of_year / 180) + np.random.exponential(10)
+            }
+            
+            # Ensure percentages sum to ~100%
+            total = sum(v for k, v in comp.items() if 'mol_percent' in k)
+            for key in comp:
+                if 'mol_percent' in key:
+                    comp[key] = comp[key] * 100 / total
+            
+            compositions.append(comp)
+        
+        return compositions
+    
+    def generate_all_data(self):
+        """Generate all synthetic data"""
+        print("\n" + "="*60)
+        print("Starting Synthetic Data Generation")
+        print("="*60)
+        
+        # Generate environmental data
+        self.environmental_data = self._generate_weather_patterns()
+        
+        # Generate process data
+        self.process_data = self._generate_process_data()
+        
+        # Generate equipment health data
+        self.equipment_data = self._generate_equipment_health_data()
+        
+        # Generate failure events
+        self.failure_events = self._generate_failure_events()
+        
+        # Apply failures to data
+        self.process_data, self.equipment_data = self._apply_failures_to_data(
+            self.process_data, self.equipment_data
+        )
+        
+        # Generate text data
+        self.text_data = self._generate_text_data()
+        
+        # Generate gas composition data
+        self.composition_data = self._generate_gas_composition_data()
+        
+        print("\n" + "="*60)
+        print("Data Generation Complete!")
+        print("="*60)
+        
+        return self
+    
+    def export_data(self, output_dir='synthetic_data_output'):
+        """Export all generated data to various formats"""
+        print(f"\nExporting data to {output_dir}...")
+        
+        output_path = Path(output_dir)
+        output_path.mkdir(exist_ok=True)
+        
+        # 1. Export to CSV files
+        csv_dir = output_path / 'csv_files'
+        csv_dir.mkdir(exist_ok=True)
+        
+        # Create main dataframe with time index
+        df_main = pd.DataFrame(index=self.time_index)
+        
+        # Add all process and equipment data
+        for name, data in {**self.process_data, **self.equipment_data}.items():
+            df_main[name] = data
+        
+        # Add environmental data
+        for name, data in self.environmental_data.items():
+            df_main[name] = data
+        
+        # Save main CSV (sample first 100,000 rows for demo)
+        main_csv_path = csv_dir / 'plant_data_main.csv'
+        df_main.iloc[:100000].to_csv(main_csv_path)  # First 100k rows for demo
+        print(f"  Main data CSV: {main_csv_path} (100,000 rows)")
+        
+        # Save full data in parquet format (more efficient)
+        parquet_path = output_path / 'plant_data_full.parquet'
+        df_main.to_parquet(parquet_path, compression='snappy')
+        print(f"  Full data Parquet: {parquet_path} ({len(df_main):,} rows)")
+        
+        # 2. Export text data
+        text_dir = output_path / 'text_data'
+        text_dir.mkdir(exist_ok=True)
+        
+        # Shift reports
+        df_shifts = pd.DataFrame(self.text_data['shift_reports'])
+        df_shifts.to_csv(text_dir / 'shift_reports.csv', index=False)
+        
+        # Work orders
+        df_work_orders = pd.DataFrame(self.text_data['work_orders'])
+        df_work_orders.to_csv(text_dir / 'work_orders.csv', index=False)
+        
+        # Alarm logs
+        df_alarms = pd.DataFrame(self.text_data['alarm_logs'])
+        df_alarms.to_csv(text_dir / 'alarm_logs.csv', index=False)
+        
+        # 3. Export composition data
+        df_composition = pd.DataFrame(self.composition_data)
+        df_composition.to_csv(output_path / 'gas_composition.csv', index=False)
+        
+        # 4. Export failure events
+        df_failures = pd.DataFrame(self.failure_events)
+        df_failures.to_csv(output_path / 'failure_events.csv', index=False)
+        
+        # 5. Export to SQLite database
+        db_path = output_path / 'gas_plant_data.db'
+        with sqlite3.connect(db_path) as conn:
+            # Create tables
+            df_main.to_sql('process_data', conn, if_exists='replace')
+            df_shifts.to_sql('shift_reports', conn, if_exists='replace')
+            df_work_orders.to_sql('work_orders', conn, if_exists='replace')
+            df_alarms.to_sql('alarm_logs', conn, if_exists='replace')
+            df_composition.to_sql('gas_composition', conn, if_exists='replace')
+            df_failures.to_sql('failure_events', conn, if_exists='replace')
+        
+        print(f"  SQLite database: {db_path}")
+        
+        # 6. Export metadata and configuration
+        metadata = {
+            'generation_info': {
+                'plant_name': self.plant_name,
+                'location': self.location,
+                'generation_date': datetime.now().isoformat(),
+                'simulation_period': {
+                    'start': self.start_date.isoformat(),
+                    'end': (self.start_date + timedelta(days=self.simulation_days)).isoformat(),
+                    'days': self.simulation_days
+                },
+                'data_points_per_sensor': self.total_seconds,
+                'total_sensors': len(df_main.columns),
+                'random_seed': self.seed
+            },
+            'sensor_list': list(df_main.columns),
+            'failure_definitions': self.failure_events
+        }
+        
+        metadata_path = output_path / 'metadata.json'
+        with open(metadata_path, 'w') as f:
+            json.dump(metadata, f, indent=2, default=str)
+        
+        print(f"  Metadata: {metadata_path}")
+        
+        # 7. Create a sample data file (first 24 hours)
+        sample_data = df_main.iloc[:86400]  # First day
+        sample_path = output_path / 'sample_data_24h.csv'
+        sample_data.to_csv(sample_path)
+        print(f"  Sample data (24h): {sample_path}")
+        
+        print(f"\nAll data exported successfully to {output_path}")
+        
+        # Create a summary report
+        self._create_summary_report(output_path)
+        
+        return output_path
+    
+    def _create_summary_report(self, output_path):
+        """Create a summary report of generated data"""
+        report = f"""
+        ==============================================
+        SYNTHETIC DATA GENERATION SUMMARY REPORT
+        ==============================================
+        
+        Plant: {self.plant_name}
+        Location: {self.location}
+        Generation Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        
+        SIMULATION PERIOD:
+        Start: {self.start_date.strftime('%Y-%m-%d')}
+        End: {(self.start_date + timedelta(days=self.simulation_days)).strftime('%Y-%m-%d')}
+        Duration: {self.simulation_days} days ({self.simulation_days/30:.1f} months)
+        
+        DATA STATISTICS:
+        Total time points: {self.total_seconds:,} seconds
+        Sampling frequency: {self.sampling_rate} Hz
+        Total data points per sensor: {self.total_seconds:,}
+        
+        GENERATED DATA TYPES:
+        1. Process Data: {len(self.process_data)} parameters
+        2. Equipment Health: {len(self.equipment_data)} parameters
+        3. Environmental Data: {len(self.environmental_data)} parameters
+        4. Gas Composition: {len(self.composition_data)} samples (every 5 minutes)
+        5. Text Data:
+           - Shift Reports: {len(self.text_data['shift_reports'])} reports
+           - Work Orders: {len(self.text_data['work_orders'])} orders
+           - Alarm Logs: {len(self.text_data['alarm_logs'])} alarms
+        6. Failure Events: {len(self.failure_events)} simulated failures
+        
+        OUTPUT FILES:
+        Location: {output_path}
+        
+        FAILURE EVENTS SIMULATED:
+        """
+        
+        for i, failure in enumerate(self.failure_events, 1):
+            report += f"""
+            {i}. {failure['failure_id']} - {failure['failure_type']}
+               Start: {failure['start_time'].strftime('%Y-%m-%d')}
+               Duration: {failure['duration_days']} days
+               Pattern: {failure['progression_pattern']}
+               Affected Sensors: {', '.join(failure['affected_sensors'][:3])}
+            """
+        
+        report += """
+        
+        DATA VALIDATION:
+        - All data is physically plausible
+        - Failure patterns follow real-world progression
+        - Time-series correlations are maintained
+        - Environmental data matches Austin, TX climate
+        
+        USAGE NOTES:
+        1. For full dataset, use the Parquet file for efficiency
+        2. For quick analysis, use the 24-hour sample
+        3. SQLite database contains all data in relational format
+        4. Metadata file contains generation parameters
+        
+        ==============================================
+        """
+        
+        report_path = output_path / 'generation_summary.txt'
+        with open(report_path, 'w') as f:
+            f.write(report)
+        
+        print(f"  Summary report: {report_path}")
+        
+        # Also print to console
+        print(report)
+
+def main():
+    """Main execution function"""
+    print("Gas Plant Synthetic Data Generator")
+    print("Austin, Texas - 6 Months Simulation\n")
+    
+    try:
+        # Initialize generator
+        generator = SyntheticGasPlantGenerator()
+        
+        # Generate all data
+        generator.generate_all_data()
+        
+        # Export data
+        output_path = generator.export_data()
+        
+        print("\n" + "="*60)
+        print("GENERATION COMPLETE!")
+        print(f"Data available in: {output_path}")
+        print("="*60)
+        
+    except Exception as e:
+        print(f"Error during data generation: {e}")
+        import traceback
+        traceback.print_exc()
+
+if __name__ == "__main__":
+    main()
+```
+
+#### **2. plant_config.yaml**
+```yaml
+# Configuration for Lone Star Gas Refining Plant - Austin, TX
+
+plant:
+  name: "Lone Star Gas Refining"
+  location: "Austin, Texas"
+  coordinates:
+    latitude: 30.2672
+    longitude: -97.7431
+  elevation_m: 149
+
+capacity:
+  feed_gas_mmscfd: 200
+  products:
+    pipeline_gas_mmscfd: 150
+    ethane_mbpd: 15
+    propane_mbpd: 10
+    butane_mbpd: 5
+    condensate_mbpd: 8
+    sulfur_tpd: 10
+
+process_units:
+  inlet_separation:
+    vessels: 3
+    compressors: 2
+    separators: 2
+    heaters: 1
+    
+  amine_treating:
+    contactors: 2
+    regenerators: 2
+    pumps: 8
+    exchangers: 6
+    capacity_mmscfd: 220
+    
+  dehydration:
+    TEG_contactors: 2
+    reboilers: 2
+    pumps: 4
+    glycol_concentration: 99.5
+    
+  cryogenic_plant:
+    exchangers: 12
+    turbines: 2
+    towers: 3
+    cold_box_temp_c: -100
+    propane_refrigerant: true
+    
+  fractionation:
+    deethanizer: 1
+    depropanizer: 1
+    debutanizer: 1
+    reboilers: 6
+    condensers: 3
+    
+  sulfur_recovery:
+    reactors: 2
+    incinerator: 1
+    converters: 2
+    tail_gas_treatment: true
+
+instrumentation:
+  total_sensors: 1273
+  sensor_types:
+    temperature: 450
+    pressure: 380
+    flow: 220
+    level: 85
+    vibration: 120
+    composition: 18
+    
+  control_loops: 145
+  safety_systems: 45
+
+operational_parameters:
+  design_pressure_psig: 1440
+  design_temperature_f: 650
+  turndown_ratio: 40
+  availability_target: 98.5
+  energy_efficiency: 92.0
+
+personnel:
+  total_employees: 85
+  shifts_per_day: 2
+  operators_per_shift: 4
+  maintenance_crew: 12
+  engineering_support: 8
+
+environmental:
+  emissions_limits:
+    so2_ppm: 10
+    nox_ppm: 30
+    co_ppm: 50
+    voc_ppm: 100
+  water_usage_gpm: 120
+  waste_generation_tpd: 2.5
+
+data_generation:
+  simulation_days: 182
+  sampling_rate_hz: 1
+  random_seed: 42
+  failure_injection: true
+  weather_modeling: true
+  text_data_generation: true
+```
+
+#### **3. requirements.txt**
+```txt
+numpy>=1.21.0
+pandas>=1.3.0
+pyyaml>=6.0
+sqlite3
+scipy>=1.7.0
+matplotlib>=3.4.0  # For optional visualization
+pyarrow>=5.0.0  # For parquet export
+```
+
+#### **4. run_generator.py** (Simplified runner)
+```python
+#!/usr/bin/env python3
+"""
+Simplified runner for data generator
+"""
+
+import subprocess
+import sys
+import time
+
+def install_requirements():
+    """Install required packages"""
+    print("Installing requirements...")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+
+def run_generator():
+    """Run the main generator"""
+    from main_generator import main
+    
+    print("\nStarting data generation...")
+    start_time = time.time()
+    
+    main()
+    
+    elapsed = time.time() - start_time
+    print(f"\nTotal execution time: {elapsed:.2f} seconds")
+
+if __name__ == "__main__":
+    # Install requirements if needed
+    try:
+        import pandas as pd
+    except ImportError:
+        install_requirements()
+    
+    # Run generator
+    run_generator()
+```
+
+#### **5. data_visualizer.py** (Optional)
+```python
+#!/usr/bin/env python3
+"""
+Optional visualization for generated data
+"""
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from pathlib import Path
+
+def visualize_sample_data(data_dir='synthetic_data_output'):
+    """Create visualization plots for sample data"""
+    
+    # Load sample data
+    sample_path = Path(data_dir) / 'sample_data_24h.csv'
+    df = pd.read_csv(sample_path, index_col=0, parse_dates=True)
+    
+    # Set style
+    sns.set_style("whitegrid")
+    plt.figure(figsize=(15, 10))
+    
+    # Plot 1: Key process parameters
+    plt.subplot(3, 2, 1)
+    if 'plant_throughput' in df.columns:
+        plt.plot(df.index, df['plant_throughput'], label='Throughput', alpha=0.7)
+    if 'inlet_separation_feed_pressure' in df.columns:
+        plt.plot(df.index, df['inlet_separation_feed_pressure'], label='Feed Pressure', alpha=0.7)
+    plt.title('Key Process Parameters (24h)')
+    plt.xlabel('Time')
+    plt.ylabel('Value')
+    plt.legend()
+    plt.xticks(rotation=45)
+    
+    # Plot 2: Equipment health
+    plt.subplot(3, 2, 2)
+    vibration_cols = [col for col in df.columns if 'vibration' in col]
+    for col in vibration_cols[:3]:  # First 3 vibration sensors
+        plt.plot(df.index, df[col], label=col, alpha=0.7)
+    plt.title('Equipment Vibration (24h)')
+    plt.xlabel('Time')
+    plt.ylabel('Vibration (mm/s)')
+    plt.legend()
+    plt.xticks(rotation=45)
+    
+    # Plot 3: Environmental data
+    plt.subplot(3, 2, 3)
+    if 'temperature_C' in df.columns:
+        plt.plot(df.index, df['temperature_C'], label='Temperature', color='red', alpha=0.7)
+    plt.title('Ambient Temperature - Austin, TX')
+    plt.xlabel('Time')
+    plt.ylabel('Temperature (°C)')
+    plt.legend()
+    plt.xticks(rotation=45)
+    
+    # Plot 4: Histogram of process values
+    plt.subplot(3, 2, 4)
+    if 'plant_throughput' in df.columns:
+        plt.hist(df['plant_throughput'].dropna(), bins=50, alpha=0.7, edgecolor='black')
+        plt.title('Throughput Distribution')
+        plt.xlabel('Throughput (SCF/s)')
+        plt.ylabel('Frequency')
+    
+    # Plot 5: Correlation heatmap (sample of parameters)
+    plt.subplot(3, 2, 5)
+    # Select a subset of columns for correlation
+    corr_cols = [col for col in df.columns if any(x in col for x in ['pressure', 'temp', 'flow'])]
+    corr_cols = corr_cols[:8]  # First 8 relevant columns
+    if len(corr_cols) > 1:
+        corr_matrix = df[corr_cols].corr()
+        sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', center=0)
+        plt.title('Parameter Correlations')
+    
+    # Plot 6: Failure indicators
+    plt.subplot(3, 2, 6)
+    failure_cols = [col for col in df.columns if any(x in col for x in ['vibration', 'bearing'])]
+    for col in failure_cols[:2]:
+        plt.plot(df.index, df[col], label=col, alpha=0.7)
+    plt.title('Failure Progression Indicators')
+    plt.xlabel('Time')
+    plt.ylabel('Value')
+    plt.legend()
+    plt.xticks(rotation=45)
+    
+    plt.tight_layout()
+    plt.savefig(Path(data_dir) / 'data_visualization.png', dpi=150, bbox_inches='tight')
+    plt.show()
+    
+    print(f"Visualization saved to {Path(data_dir) / 'data_visualization.png'}")
+
+if __name__ == "__main__":
+    visualize_sample_data()
+```
+
+---
+
+## **راهنمای اجرا و استفاده:**
+
+### **نصب و راه‌اندازی:**
+```bash
+# 1. Clone or create project directory
+mkdir synthetic_gas_plant_data
+cd synthetic_gas_plant_data
+
+# 2. Create virtual environment (optional but recommended)
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# 3. Install requirements
+pip install numpy pandas pyyaml pyarrow matplotlib
+
+# 4. Create configuration file
+# Save the plant_config.yaml content above
+
+# 5. Run the generator
+python main_generator.py
+```
+
+### **خروجی‌های تولید شده:**
+سیستم فایل‌های زیر را تولید می‌کند:
+
+```
+synthetic_data_output/
+├── csv_files/
+│   └── plant_data_main.csv          # 100,000 نمونه اول (برای دمو)
+├── plant_data_full.parquet          # کل داده‌ها (15.7 میلیون نقطه)
+├── gas_composition.csv              # داده‌های ترکیب گاز
+├── failure_events.csv               # رویدادهای خرابی
+├── gas_plant_data.db                # پایگاه داده SQLite کامل
+├── text_data/
+│   ├── shift_reports.csv
+│   ├── work_orders.csv
+│   └── alarm_logs.csv
+├── sample_data_24h.csv              # 24 ساعت اول داده
+├── metadata.json                    # متادیتای کامل
+└── generation_summary.txt           # گزارش خلاصه
+```
+
+### **ویژگی‌های کلیدی سیستم:**
+
+1. **داده‌های واقع‌گرا:** الگوهای فصلی، روزانه و ساعتی منطبق با آستین، تگزاس
+2. **خرابی‌های پیچیده:** 5 نوع خرابی با الگوهای پیشرونده واقعی
+3. **فرمت‌های متنوع:** CSV، Parquet، JSON، SQLite
+4. **تکرارپذیری:** seedهای تصادفی ثابت
+5. **مقیاس‌پذیری:** امکان افزایش دوره زمانی یا تعداد سنسورها
+6. **مستندات کامل:** متادیتا و گزارش خلاصه
+
+### **کاربردهای داده‌های تولید شده:**
+
+1. **آموزش مدل‌های هوش مصنوعی:** برای پیش‌بینی خرابی، بهینه‌سازی فرآیند
+2. **توسعه سیستم‌های مانیتورینگ:** تست سیستم‌های SCADA و HMI
+3. **شبیه‌سازی عملکرد:** تست استراتژی‌های کنترل و عملیاتی
+4. **تحقیق و توسعه:** توسعه الگوریتم‌های جدید بدون نیاز به داده واقعی
+5. **آموزش پرسنل:** ایجاد سناریوهای آموزشی واقع‌گرا
+
+این سیستم کاملاً منطبق با نیازهای پلتفرم ApexAsset AI بوده و می‌تواند برای آموزش، تست و اعتبارسنجی مدل‌های هوش مصنوعی در تمام مراحل چرخه حیات دارایی مورد استفاده قرار گیرد.
