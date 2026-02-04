@@ -1641,6 +1641,67 @@ Channels: Ticketing system, direct developer access
 Resolution Time: Based on priority (P1: < 8 hours)
 ```
 
+### **9.4 Pilot Deployment & Feedback**
+
+#### **Pilot Scope**
+```
+Sites: 1-2 representative assets with stable connectivity
+Users: 20-50 target users across operations + maintenance
+Duration: 4-6 weeks with weekly check-ins
+Features: MVP dashboard, key modules, SRS viewer, alerts
+```
+
+#### **Success Criteria**
+```
+Availability: > 99.5% during pilot window
+Performance: < 3s dashboard load, < 1s data refresh
+Adoption: > 70% weekly active users in pilot cohort
+Quality: < 1 critical defect, < 5 high severity defects
+```
+
+#### **Feedback Loop**
+```
+Channels: In-app feedback, weekly interviews, ticketing system
+Cadence: Weekly triage + bi-weekly roadmap review
+Outputs: Prioritized backlog, UX improvements, defect fixes
+```
+
+#### **Exit Decision**
+```
+Go: Success criteria met + stakeholder sign-off
+No-Go: Critical defects or low adoption -> extend pilot
+```
+
+### **9.5 Release Readiness & Optimization**
+
+#### **Performance Optimization**
+```
+Frontend: Code-splitting, lazy loading, asset compression
+Backend: Caching hot paths, DB indexing, async IO tuning
+Data: Partitioning, archival policies, query optimization
+```
+
+#### **Quality Gates**
+```
+Tests: Unit + Integration + E2E passing (no P0/P1 failures)
+Security: SAST/DAST scan clean, dependency audit resolved
+Reliability: Load test results within SLOs
+```
+
+#### **Release Checklist**
+```
+Docs: User guide, admin guide, API reference updated
+Ops: Runbooks, alert thresholds, dashboard baselines
+Compliance: Data retention + audit trail verified
+```
+
+#### **Go-Live Plan**
+```
+Strategy: Blue/Green or Canary with rollback criteria
+Monitoring: 24-48h hypercare window
+Feedback: Daily triage during first week
+```
+
 ## **10. Success Criteria**
 
 ### **10.1 Technical Success Criteria**
