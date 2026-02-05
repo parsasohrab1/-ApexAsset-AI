@@ -1,3 +1,37 @@
 fastapi
 uvicorn[standard]
 python-dotenv
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+pydantic[email]
+pydantic-settings
+websockets
+
+# Database
+sqlalchemy
+asyncpg
+psycopg2-binary
+alembic
+influxdb-client
+
+# Data Processing
+pandas
+numpy
+pyarrow
+
+# Image data generation and loading (for dataset images)
+Pillow>=9.0.0
+matplotlib>=3.4.0
+
+# Real-time Communication
+paho-mqtt
+
+# Cache (optional Redis for distributed caching)
+redis>=4.5.0
+
+# Additional utilities
+python-dateutil
+
+# Rate limiting
+slowapi>=0.1.9

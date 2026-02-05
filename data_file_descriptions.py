@@ -59,6 +59,31 @@ COMPLETE_ASSET_DATA_FILES = [
         "description": "Generation summary report.",
         "phase": "common",
     },
+    {
+        "path": "complete_asset_data/images/thermography/",
+        "description": "Thermography images (synthetic) for MNT-001.2 / CNN analysis.",
+        "phase": "maintenance",
+    },
+    {
+        "path": "complete_asset_data/images/core/",
+        "description": "Core sample images (synthetic) for EXP-002.4 core photo integration.",
+        "phase": "exploration",
+    },
+    {
+        "path": "complete_asset_data/images/seismic/",
+        "description": "Seismic section images (synthetic) for EXP-005.1 fault detection / CNN.",
+        "phase": "exploration",
+    },
+    {
+        "path": "complete_asset_data/images/data_visualization.png",
+        "description": "Summary visualization image of generated data.",
+        "phase": "common",
+    },
+    {
+        "path": "complete_asset_data/images/image_manifest.json",
+        "description": "Manifest of generated image paths and metadata.",
+        "phase": "common",
+    },
 ]
 
 GAS_PLANT_OUTPUT_FILES = [
