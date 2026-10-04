@@ -1,28 +1,28 @@
-# **سند نیازمندی‌های نرم‌افزاری (SRS) جامع - سیستم تولید داده‌های سنتتیک برای تمام مراحل چرخه حیات دارایی**
+# **Comprehensive Software Requirements Specification (SRS) - Synthetic Data Generation System for All Asset Lifecycle Stages**
 
-## **1. مقدمه**
+## **1. Introduction**
 
-### **1.1 هدف**
-این سند نیازمندی‌های سیستم جامع تولید داده‌های سنتتیک برای شبیه‌سازی تمام مراحل چرخه حیات دارایی در صنعت نفت و گاز را تعریف می‌کند. سیستم داده‌های سنتتیک را برای 6 ماه عملکرد با فرکانس 1 هرتز برای کلیه دستگاه‌ها و سنسورها در تمامی مراحل از اکتشاف تا برچیدن تولید می‌کند.
+### **1.1 Purpose**
+This document defines the requirements of a comprehensive synthetic data generation system for simulating all stages of the asset lifecycle in the oil and gas industry. The system generates synthetic data for 6 months of operation at a frequency of 1 Hz for all devices and sensors across all stages from exploration to decommissioning.
 
-### **1.2 دامنه**
-سیستم تمامی مراحل زیر را پوشش می‌دهد:
-1. اکتشاف و ارزیابی
-2. توسعه و برنامه‌ریزی
-3. تولید و عملیات
-4. نگهداشت و بازسازی
-5. برچیدن و بازسازی سایت
+### **1.2 Scope**
+The system covers all of the following stages:
+1. Exploration and appraisal
+2. Development and planning
+3. Production and operations
+4. Maintenance and rehabilitation
+5. Decommissioning and site restoration
 
-### **1.3 مخاطبان**
-- توسعه‌دهندگان نرم‌افزار
-- دانشمندان داده
-- مهندسین نفت و گاز
-- مدیران پروژه
-- تسترهای سیستم
+### **1.3 Audience**
+- Software developers
+- Data scientists
+- Oil and gas engineers
+- Project managers
+- System testers
 
-## **2. توصیف کلی سیستم**
+## **2. General System Description**
 
-### **2.1 معماری کلی سیستم**
+### **2.1 Overall System Architecture**
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                 Synthetic Data Generation System                │
@@ -44,97 +44,97 @@
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### **2.2 مشخصات فنی**
-- **دوره زمانی:** 6 ماه (182 روز)
-- **فرکانس نمونه‌برداری:** 1 هرتز (1 نمونه در ثانیه)
-- **تعداد کل نقاط داده:** 15,724,800 نقطه بر سنسور
-- **فرمت‌های خروجی:** CSV, Parquet, JSON, SQLite, HDF5
-- **زبان برنامه‌نویسی:** Python 3.9+
-- **تکرارپذیری:** با seedهای تصادفی کنترل‌شده
+### **2.2 Technical Specifications**
+- **Time period:** 6 months (182 days)
+- **Sampling frequency:** 1 Hz (1 sample per second)
+- **Total data points:** 15,724,800 points per sensor
+- **Output formats:** CSV, Parquet, JSON, SQLite, HDF5
+- **Programming language:** Python 3.9+
+- **Reproducibility:** With controlled random seeds
 
-## **3. نیازمندی‌های ویژه**
+## **3. Specific Requirements**
 
-### **3.1 نیازمندی‌های عملکردی**
+### **3.1 Functional Requirements**
 
-#### **مرحله 1: اکتشاف و ارزیابی**
-| ID | نیازمندی | توضیح | اولویت |
+#### **Stage 1: Exploration and Appraisal**
+| ID | Requirement | Description | Priority |
 |----|----------|--------|---------|
-| EXP-01 | تولید داده‌های لرزه‌ای 3D سنتتیک | داده‌های لرزه‌ای با ابعاد 1000×1000×500 پیکسل با ویژگی‌های زمین‌شناسی واقع‌گرا | بالا |
-| EXP-02 | مدل‌سازی سازندهای زمین‌شناسی | ایجاد لایه‌های سنگی، گسل‌ها، دایک‌ها و تله‌های هیدروکربنی | بالا |
-| EXP-03 | داده‌های مغناطیس‌سنجی | نقشه‌های مغناطیسی با وضوح 100×100 متر | متوسط |
-| EXP-04 | داده‌های گرانش‌سنجی | نقشه‌های گرانشی با آنومالی‌های واقع‌گرا | متوسط |
-| EXP-05 | داده‌های چاه‌های اکتشافی | لاگ‌های چاهی (GR, Resistivity, Sonic, etc.) برای 10 چاه اکتشافی | بالا |
-| EXP-06 | داده‌های هسته‌ای | آنالیز مغزه برای 5 چاه | پایین |
-| EXP-07 | نشانه‌های هیدروکربنی | شناسایی BSR، نقاط روشن (bright spots) در داده‌های لرزه‌ای | متوسط |
+| EXP-01 | Generate synthetic 3D seismic data | Seismic data of 1000×1000×500 pixels with realistic geological features | High |
+| EXP-02 | Geological formation modeling | Creating rock layers, faults, dikes and hydrocarbon traps | High |
+| EXP-03 | Magnetometry data | Magnetic maps with 100×100 m resolution | Medium |
+| EXP-04 | Gravimetry data | Gravity maps with realistic anomalies | Medium |
+| EXP-05 | Exploration well data | Well logs (GR, Resistivity, Sonic, etc.) for 10 exploration wells | High |
+| EXP-06 | Core data | Core analysis for 5 wells | Low |
+| EXP-07 | Hydrocarbon indicators | Identifying BSR and bright spots in seismic data | Medium |
 
-#### **مرحله 2: توسعه و برنامه‌ریزی**
-| ID | نیازمندی | توضیح | اولویت |
+#### **Stage 2: Development and Planning**
+| ID | Requirement | Description | Priority |
 |----|----------|--------|---------|
-| DEV-01 | مدل مخزن سنتتیک | مدل سه‌بعدی مخزن با خواص پتروفیزیکی (تراوایی، تخلخل، اشباع) | بالا |
-| DEV-02 | شبیه‌سازی جریان مخزن | داده‌های شبیه‌سازی برای 1000 سناریو | بالا |
-| DEV-03 | داده‌های حفاری | پارامترهای حفاری (WOB, RPM, Flow Rate) برای 20 چاه توسعه | بالا |
-| DEV-04 | داده‌های سکوی حفاری | وضعیت تجهیزات، مصرف انرژی، تولید پسماند | متوسط |
-| DEV-05 | داده‌های طراحی شبکه جمع‌آوری | پارامترهای خطوط لوله، پمپ‌ها، کمپرسورها | متوسط |
-| DEV-06 | داده‌های اقتصادی | قیمت نفت، هزینه‌های سرمایه‌ای و عملیاتی، نرخ تنزیل | بالا |
-| DEV-07 | داده‌های ریسک | احتمالات رویدادهای ریسکی، تأثیرات مالی | متوسط |
+| DEV-01 | Synthetic reservoir model | 3D reservoir model with petrophysical properties (permeability, porosity, saturation) | High |
+| DEV-02 | Reservoir flow simulation | Simulation data for 1000 scenarios | High |
+| DEV-03 | Drilling data | Drilling parameters (WOB, RPM, Flow Rate) for 20 development wells | High |
+| DEV-04 | Drilling rig data | Equipment status, energy consumption, waste generation | Medium |
+| DEV-05 | Gathering network design data | Pipeline, pump and compressor parameters | Medium |
+| DEV-06 | Economic data | Oil price, capital and operating costs, discount rate | High |
+| DEV-07 | Risk data | Probabilities of risk events, financial impacts | Medium |
 
-#### **مرحله 3: تولید و عملیات** (قبلاً پیاده‌سازی شده - نیاز به توسعه)
-| ID | نیازمندی | توضیح | اولویت |
+#### **Stage 3: Production and Operations** (previously implemented - needs development)
+| ID | Requirement | Description | Priority |
 |----|----------|--------|---------|
-| PROD-01 | داده‌های فرآیندی پالایشگاه | توسعه بیشتر پالایشگاه موجود | بالا |
-| PROD-02 | داده‌های تولید چاه | نرخ تولید، فشار چاه، تست تولید | بالا |
-| PROD-03 | داده‌های تاسیسات فرآورش | جداکننده‌ها، سیستم‌های تزریق، واحدهای تصفیه | بالا |
-| PROD-04 | داده‌های بهره‌وری انرژی | مصرف برق، گرمایش، سرمایش | متوسط |
-| PROD-05 | داده‌های انتشارات | آلاینده‌های هوا، پساب، پسماند | متوسط |
-| PROD-06 | داده‌های لجستیک | حمل‌ونقل، ذخیره‌سازی، بارگیری | پایین |
-| PROD-07 | داده‌های ایمنی | حوادث، بازرسی‌ها، تمرینات | متوسط |
+| PROD-01 | Refinery process data | Further development of the existing refinery | High |
+| PROD-02 | Well production data | Production rate, well pressure, production test | High |
+| PROD-03 | Processing facility data | Separators, injection systems, treatment units | High |
+| PROD-04 | Energy efficiency data | Electricity, heating, cooling consumption | Medium |
+| PROD-05 | Emissions data | Air pollutants, effluent, waste | Medium |
+| PROD-06 | Logistics data | Transport, storage, loading | Low |
+| PROD-07 | Safety data | Incidents, inspections, drills | Medium |
 
-#### **مرحله 4: نگهداشت و بازسازی**
-| ID | نیازمندی | توضیح | اولویت |
+#### **Stage 4: Maintenance and Rehabilitation**
+| ID | Requirement | Description | Priority |
 |----|----------|--------|---------|
-| MNT-01 | داده‌های سلامت تجهیزات | ارتعاش، دما، آنالیز روغن | بالا |
-| MNT-02 | داده‌های بازرسی | نتایج NDT، ضخامت‌سنجی، بازدید چشمی | بالا |
-| MNT-03 | داده‌های تعمیرات | کارنه‌های تعمیر، زمان توقف، هزینه‌ها | بالا |
-| MNT-04 | داده‌های موجودی قطعات | سطح موجودی، زمان تحویل، هزینه‌ها | متوسط |
-| MNT-05 | داده‌های برنامه‌ریزی تعمیرات | تقویم تولید، در دسترس بودن نیرو | متوسط |
-| MNT-06 | داده‌های پروژه‌های بازسازی | ROI، زمان اجرا، ریسک‌ها | متوسط |
-| MNT-07 | داده‌های کالیبراسیون | تاریخچه کالیبراسیون تجهیزات | پایین |
+| MNT-01 | Equipment health data | Vibration, temperature, oil analysis | High |
+| MNT-02 | Inspection data | NDT results, thickness measurement, visual inspection | High |
+| MNT-03 | Repair data | Repair logs, downtime, costs | High |
+| MNT-04 | Spare parts inventory data | Inventory level, lead time, costs | Medium |
+| MNT-05 | Maintenance planning data | Production calendar, workforce availability | Medium |
+| MNT-06 | Rehabilitation project data | ROI, execution time, risks | Medium |
+| MNT-07 | Calibration data | Equipment calibration history | Low |
 
-#### **مرحله 5: برچیدن و بازسازی سایت**
-| ID | نیازمندی | توضیح | اولویت |
+#### **Stage 5: Decommissioning and Site Restoration**
+| ID | Requirement | Description | Priority |
 |----|----------|--------|---------|
-| DEC-01 | داده‌های وضعیت تجهیزات | شرایط فیزیکی، ارزش اسقاط | بالا |
-| DEC-02 | داده‌های هزینه برچیدن | برآورد هزینه‌های مختلف سناریوها | بالا |
-| DEC-03 | داده‌های محیط‌زیستی | آلودگی خاک، آب، شرایط پایه | بالا |
-| DEC-04 | داده‌های مقررات | الزامات قانونی، مجوزها | متوسط |
-| DEC-05 | داده‌های لجستیک برچیدن | حمل تجهیزات، مدیریت پسماند | متوسط |
-| DEC-06 | داده‌های بازسازی سایت | برنامه‌های احیاء، پایش بلندمدت | متوسط |
-| DEC-07 | داده‌های ریسک برچیدن | احتمالات حوادث، تأثیرات | پایین |
+| DEC-01 | Equipment condition data | Physical condition, scrap value | High |
+| DEC-02 | Decommissioning cost data | Estimated costs of different scenarios | High |
+| DEC-03 | Environmental data | Soil and water contamination, baseline conditions | High |
+| DEC-04 | Regulatory data | Legal requirements, permits | Medium |
+| DEC-05 | Decommissioning logistics data | Equipment transport, waste management | Medium |
+| DEC-06 | Site restoration data | Reclamation plans, long-term monitoring | Medium |
+| DEC-07 | Decommissioning risk data | Incident probabilities, impacts | Low |
 
-#### **ماژول‌های مشترک**
-| ID | نیازمندی | توضیح | اولویت |
+#### **Shared Modules**
+| ID | Requirement | Description | Priority |
 |----|----------|--------|---------|
-| COM-01 | داده‌های محیطی | آب و هوا، شرایط جوی، زمین‌لرزه | بالا |
-| COM-02 | داده‌های اقتصادی | قیمت‌های جهانی، نرخ ارز، تورم | بالا |
-| COM-03 | داده‌های متنی | گزارش‌ها، صورتجلسات، دستورالعمل‌ها | متوسط |
-| COM-04 | داده‌های مکانی | مختصات، نقشه‌ها، GIS | متوسط |
-| COM-05 | داده‌های زمانی | برچسب‌های زمانی هماهنگ شده | بالا |
+| COM-01 | Environmental data | Weather, atmospheric conditions, earthquakes | High |
+| COM-02 | Economic data | Global prices, exchange rate, inflation | High |
+| COM-03 | Text data | Reports, meeting minutes, procedures | Medium |
+| COM-04 | Spatial data | Coordinates, maps, GIS | Medium |
+| COM-05 | Time data | Synchronized timestamps | High |
 
-### **3.2 نیازمندی‌های غیرعملکردی**
-| ID | نیازمندی | توضیح | معیار سنجش |
+### **3.2 Non-Functional Requirements**
+| ID | Requirement | Description | Measure |
 |----|----------|--------|-------------|
-| NFR-01 | کارایی | تولید 15M نقطه داده در کمتر از 2 ساعت | زمان پردازش |
-| NFR-02 | مقیاس‌پذیری | پشتیبانی از 10,000 سنسور همزمان | تعداد سنسورها |
-| NFR-03 | قابلیت اطمینان | نرخ خطای کمتر از 0.001% | صحت داده‌ها |
-| NFR-04 | تکرارپذیری | تولید داده یکسان با seed ثابت | همبستگی داده‌ها |
-| NFR-05 | واقع‌گرایی | داده‌ها از نظر فیزیکی معتبر | اعتبارسنجی دامنه |
-| NFR-06 | قابلیت نگهداری | کد ماژولار با مستندات کامل | چرخه عمر توسعه |
-| NFR-07 | سازگاری | پشتیبانی از سیستم‌های عامل مختلف | پلتفرم‌های تست شده |
-| NFR-08 | امنیت | رمزنگاری داده‌های حساس | استانداردهای امنیتی |
+| NFR-01 | Performance | Generating 15M data points in less than 2 hours | Processing time |
+| NFR-02 | Scalability | Support for 10,000 concurrent sensors | Number of sensors |
+| NFR-03 | Reliability | Error rate less than 0.001% | Data accuracy |
+| NFR-04 | Reproducibility | Generating identical data with a fixed seed | Data correlation |
+| NFR-05 | Realism | Data physically valid | Range validation |
+| NFR-06 | Maintainability | Modular code with complete documentation | Development lifecycle |
+| NFR-07 | Compatibility | Support for different operating systems | Tested platforms |
+| NFR-08 | Security | Encryption of sensitive data | Security standards |
 
-## **4. معماری سیستم**
+## **4. System Architecture**
 
-### **4.1 نمودار اجزای سیستم**
+### **4.1 System Components Diagram**
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                    Data Generation Controller                   │
@@ -154,61 +154,61 @@
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### **4.2 جریان داده‌ها**
+### **4.2 Data Flow**
 ```
 Configuration → Physics Models → Anomaly Injection → 
 Environmental Effects → Economic Context → Validation → Export
 ```
 
-## **5. جزئیات طراحی**
+## **5. Design Details**
 
-### **5.1 مدل‌های فیزیکی استفاده‌شده**
+### **5.1 Physical Models Used**
 
-#### **مدل‌های اکتشافی:**
-1. **مدل لرزه‌ای:** معادله موج برای انتشار امواج لرزه‌ای
-2. **مدل زمین‌شناسی:** الگوریتم‌های ژئواستاتیستیک برای ایجاد سازندها
-3. **مدل مغناطیسی:** معادلات ماکسول برای میدان‌های مغناطیسی
-4. **مدل گرانشی:** قانون گرانش نیوتن با توزیع چگالی
+#### **Exploration models:**
+1. **Seismic model:** Wave equation for the propagation of seismic waves
+2. **Geological model:** Geostatistical algorithms for creating formations
+3. **Magnetic model:** Maxwell's equations for magnetic fields
+4. **Gravity model:** Newton's law of gravitation with density distribution
 
-#### **مدل‌های تولیدی:**
-1. **مدل جریان مخزن:** معادلات دارسی برای جریان سیال
-2. **مدل چاه:** معادلات افت فشار در چاه
-3. **مدل فرآیندی:** معادلات بقای جرم، انرژی و مومنتوم
+#### **Production models:**
+1. **Reservoir flow model:** Darcy's equations for fluid flow
+2. **Well model:** Wellbore pressure drop equations
+3. **Process model:** Equations of conservation of mass, energy and momentum
 
-#### **مدل‌های تجهیزاتی:**
-1. **مدل فرسایش:** قانون Arrhenius برای فرسایش حرارتی
-2. **مدل خستگی:** قانون Miner برای خستگی مواد
-3. **مدل خوردگی:** قانون Faraday برای خوردگی الکتروشیمیایی
+#### **Equipment models:**
+1. **Erosion model:** Arrhenius law for thermal erosion
+2. **Fatigue model:** Miner's law for material fatigue
+3. **Corrosion model:** Faraday's law for electrochemical corrosion
 
-### **5.2 الگوهای خرابی و ناهنجاری**
+### **5.2 Failure and Anomaly Patterns**
 
-#### **الگوهای اکتشافی:**
-- تفسیر اشتباه داده‌های لرزه‌ای
-- خطا در تخمین حجم مخزن
-- عدم کشف منابع کوچک
+#### **Exploration patterns:**
+- Misinterpretation of seismic data
+- Error in estimating reservoir volume
+- Failure to discover small resources
 
-#### **الگوهای تولیدی:**
-- رسوب‌گیری در چاه
-- آب‌ breakthrough
-- خرابی پمپ‌ها و کمپرسورها
+#### **Production patterns:**
+- Scale deposition in the well
+- Water breakthrough
+- Pump and compressor failure
 
-#### **الگوهای ایمنی:**
-- نشتی‌ها
-- آتش‌سوزی
-- انتشار آلاینده‌ها
+#### **Safety patterns:**
+- Leaks
+- Fires
+- Release of pollutants
 
-### **5.3 ساختار داده‌ها**
+### **5.3 Data Structure**
 
-#### **فرمت‌های خروجی:**
-1. **CSV:** برای داده‌های جدولی
-2. **Parquet:** برای داده‌های حجیم
-3. **JSON:** برای داده‌های ساختاریافته
-4. **SQLite:** برای داده‌های رابطه‌ای
-5. **HDF5:** برای داده‌های علمی
-6. **NETCDF:** برای داده‌های جغرافیایی
-7. **SEGY:** برای داده‌های لرزه‌ای
+#### **Output formats:**
+1. **CSV:** For tabular data
+2. **Parquet:** For bulky data
+3. **JSON:** For structured data
+4. **SQLite:** For relational data
+5. **HDF5:** For scientific data
+6. **NETCDF:** For geographic data
+7. **SEGY:** For seismic data
 
-#### **ساختار دایرکتوری:**
+#### **Directory structure:**
 ```
 synthetic_data/
 ├── exploration/
@@ -243,14 +243,14 @@ synthetic_data/
     └── metadata/
 ```
 
-## **6. نیازمندی‌های رابط**
+## **6. Interface Requirements**
 
-### **6.1 رابط کاربری**
-- رابط خط فرمان (CLI) برای اتوماسیون
-- رابط گرافیکی ساده برای پیکربندی
-- API برای یکپارچه‌سازی با سیستم‌های دیگر
+### **6.1 User Interface**
+- Command-line interface (CLI) for automation
+- Simple graphical interface for configuration
+- API for integration with other systems
 
-### **6.2 رابط برنامه‌نویسی (API)**
+### **6.2 Application Programming Interface (API)**
 ```python
 class SyntheticDataGenerator:
     def generate_exploration_data(config): ...
@@ -262,99 +262,99 @@ class SyntheticDataGenerator:
     def validate_data(): ...
 ```
 
-## **7. نیازمندی‌های کیفیت**
+## **7. Quality Requirements**
 
-### **7.1 اعتبارسنجی داده‌ها**
-- بررسی محدوده مقادیر (Range validation)
-- اعتبارسنجی روابط فیزیکی
-- بررسی سازگاری زمانی
-- اعتبارسنجی مکانی
-- تحلیل آماری توزیع‌ها
+### **7.1 Data Validation**
+- Range validation
+- Validation of physical relationships
+- Temporal consistency check
+- Spatial validation
+- Statistical analysis of distributions
 
-### **7.2 کنترل کیفیت**
-- لاگ‌گیری خطاها
-- گزارش‌های کیفیت
-- ممیزی داده‌ها
-- بازیابی از خطا
+### **7.2 Quality Control**
+- Error logging
+- Quality reports
+- Data auditing
+- Error recovery
 
-## **8. مستندات**
+## **8. Documentation**
 
-### **8.1 مستندات فنی**
-- مستندات API
-- راهنمای نصب
-- راهنمای کاربر
-- مثال‌های استفاده
+### **8.1 Technical Documentation**
+- API documentation
+- Installation guide
+- User guide
+- Usage examples
 
-### **8.2 مستندات داده‌ها**
-- فرهنگ داده‌ها (Data dictionary)
-- نمودارهای ER
-- متادیتای کامل
-- نمونه‌های داده
+### **8.2 Data Documentation**
+- Data dictionary
+- ER diagrams
+- Complete metadata
+- Data samples
 
-## **9. محدودیت‌ها و فرضیات**
+## **9. Constraints and Assumptions**
 
-### **9.1 محدودیت‌ها**
-- داده‌های سنتتیک نمی‌توانند کاملاً جایگزین داده‌های واقعی شوند
-- مدل‌های فیزیکی ساده‌سازی شده‌اند
-- مقیاس زمانی 6 ماه برای برخی فرآیندها کوتاه است
+### **9.1 Constraints**
+- Synthetic data cannot completely replace real data
+- The physical models are simplified
+- A 6-month time scale is short for some processes
 
-### **9.2 فرضیات**
-- رفتار خطی برای برخی فرآیندهای غیرخطی
-- شرایط مرزی ایده‌آل
-- عدم در نظرگیری برخی متغیرهای محیطی پیچیده
+### **9.2 Assumptions**
+- Linear behavior for some nonlinear processes
+- Ideal boundary conditions
+- Some complex environmental variables are not considered
 
-## **10. جدول زمانی و منابع**
+## **10. Timeline and Resources**
 
-### **10.1 فازهای توسعه**
-| فاز | مدت | تحویل‌ها |
+### **10.1 Development Phases**
+| Phase | Duration | Deliverables |
 |-----|------|-----------|
-| فاز 1: طراحی | 2 هفته | SRS نهایی، معماری |
-| فاز 2: پیاده‌سازی هسته | 4 هفته | موتور تولید داده پایه |
-| فاز 3: ماژول‌های تخصصی | 6 هفته | ماژول‌های 5 مرحله |
-| فاز 4: یکپارچه‌سازی | 2 هفته | سیستم کامل |
-| فاز 5: تست و اعتبارسنجی | 2 هفته | گزارش تست |
-| فاز 6: مستندسازی | 1 هفته | مستندات کامل |
+| Phase 1: Design | 2 weeks | Final SRS, architecture |
+| Phase 2: Core implementation | 4 weeks | Basic data generation engine |
+| Phase 3: Specialized modules | 6 weeks | Modules of the 5 stages |
+| Phase 4: Integration | 2 weeks | Complete system |
+| Phase 5: Testing and validation | 2 weeks | Test report |
+| Phase 6: Documentation | 1 week | Complete documentation |
 
-### **10.2 منابع مورد نیاز**
-- توسعه‌دهنده Python ارشد: 2 نفر
-- مهندس نفت مشاور: 1 نفر
-- دانشمند داده: 1 نفر
-- سرور تست: 1 عدد (32GB RAM, 8-core CPU)
-- فضای ذخیره‌سازی: 1TB
+### **10.2 Required Resources**
+- Senior Python developer: 2 people
+- Consulting petroleum engineer: 1 person
+- Data scientist: 1 person
+- Test server: 1 unit (32GB RAM, 8-core CPU)
+- Storage space: 1TB
 
-## **11. ریسک‌ها و راهکارهای کاهش**
+## **11. Risks and Mitigation Strategies**
 
-| ریسک | احتمال | تأثیر | راهکار کاهش |
+| Risk | Probability | Impact | Mitigation |
 |------|---------|--------|-------------|
-| پیچیدگی مدل‌های فیزیکی | بالا | بالا | استفاده از مدل‌های ساده‌شده |
-| حجم زیاد داده‌ها | بالا | متوسط | بهینه‌سازی الگوریتم‌ها |
-| واقع‌گرایی ناکافی | متوسط | بالا | اعتبارسنجی با خبرگان حوزه |
-| زمان پردازش طولانی | بالا | متوسط | پردازش موازی |
-| عدم پذیرش کاربران | متوسط | بالا | مشارکت کاربران در طراحی |
+| Complexity of physical models | High | High | Use simplified models |
+| Large data volume | High | Medium | Optimize algorithms |
+| Insufficient realism | Medium | High | Validation with domain experts |
+| Long processing time | High | Medium | Parallel processing |
+| User non-acceptance | Medium | High | User participation in design |
 
-## **12. معیارهای پذیرش**
+## **12. Acceptance Criteria**
 
-### **12.1 معیارهای فنی**
-1. تولید 15.7M نقطه داده در کمتر از 2 ساعت
-2. خطای کمتر از 0.001% در داده‌ها
-3. تکرارپذیری کامل با seed ثابت
-4. پشتیبانی از تمام 5 فرمت خروجی
+### **12.1 Technical Criteria**
+1. Generating 15.7M data points in less than 2 hours
+2. Error less than 0.001% in the data
+3. Full reproducibility with a fixed seed
+4. Support for all 5 output formats
 
-### **12.2 معیارهای کیفیت داده**
-1. اعتبارسنجی فیزیکی موفق
-2. توزیع‌های آماری واقع‌گرا
-3. روابط علّی صحیح بین متغیرها
-4. متادیتای کامل و دقیق
+### **12.2 Data Quality Criteria**
+1. Successful physical validation
+2. Realistic statistical distributions
+3. Correct causal relationships between variables
+4. Complete and accurate metadata
 
-### **12.3 معیارهای کاربری**
-1. مستندات کامل و قابل فهم
-2. رابط کاربری intuitive
-3. نمونه‌های عملی مفید
-4. پشتیبانی از سناریوهای واقعی
+### **12.3 Usability Criteria**
+1. Complete and understandable documentation
+2. Intuitive user interface
+3. Useful practical examples
+4. Support for real scenarios
 
 ---
 
-# **کد تولید کننده داده‌های سنتتیک برای تمام مراحل**
+# **Synthetic Data Generator Code for All Stages**
 
 ```python
 #!/usr/bin/env python3
@@ -4594,7 +4594,7 @@ if __name__ == "__main__":
     main()
 ```
 
-## **فایل‌های تکمیلی پروژه:**
+## **Supplementary Project Files:**
 
 ### **1. complete_config.yaml**
 ```yaml
@@ -4848,169 +4848,169 @@ if __name__ == "__main__":
     validate_data()
 ```
 
-## **راهنمای اجرا:**
+## **Execution Guide:**
 
-### **نصب:**
+### **Installation:**
 ```bash
-# 1. ایجاد دایرکتوری پروژه
+# 1. Create the project directory
 mkdir complete_asset_data_generation
 cd complete_asset_data_generation
 
-# 2. ایجاد محیط مجازی (اختیاری)
+# 2. Create a virtual environment (optional)
 python -m venv venv
 source venv/bin/activate  # Linux/Mac
-# یا
+# or
 venv\Scripts\activate  # Windows
 
-# 3. نصب کتابخانه‌ها
+# 3. Install the libraries
 pip install numpy pandas scipy pyyaml pyarrow
 
-# 4. ایجاد فایل‌های پیکربندی
-# کدهای بالا را در فایل‌های جداگانه ذخیره کنید
+# 4. Create the configuration files
+# Save the above code in separate files
 ```
 
-### **اجرا:**
+### **Execution:**
 ```bash
-# اجرای کامل
+# Full execution
 python run_complete_generation.py
 
-# یا مستقیم
+# or directly
 python complete_generator.py
 ```
 
-### **خروجی‌های تولید شده:**
+### **Generated outputs:**
 ```
 complete_asset_data/
 ├── exploration/
-│   ├── exploration_data.json          # داده‌های کامل اکتشاف
-│   └── seismic_data.h5                # داده‌های لرزه‌ای (اختیاری)
+│   ├── exploration_data.json          # complete exploration data
+│   └── seismic_data.h5                # seismic data (optional)
 ├── development/
-│   └── development_data.json          # داده‌های توسعه
+│   └── development_data.json          # development data
 ├── production/
-│   ├── production_data.json           # داده‌های تولید
-│   └── csv_data/                      # داده‌های سری زمانی
+│   ├── production_data.json           # production data
+│   └── csv_data/                      # time-series data
 │       ├── PROD-001_sample.csv
 │       ├── PROD-002_sample.csv
 │       └── ...
 ├── maintenance/
-│   └── maintenance_data.json          # داده‌های نگهداشت
+│   └── maintenance_data.json          # maintenance data
 ├── decommissioning/
-│   └── decommissioning_data.json      # داده‌های برچیدن
+│   └── decommissioning_data.json      # decommissioning data
 ├── common/
-│   └── common_data.json               # داده‌های مشترک
-├── metadata.json                      # متادیتای کامل
-└── generation_summary.txt             # گزارش خلاصه
+│   └── common_data.json               # shared data
+├── metadata.json                      # complete metadata
+└── generation_summary.txt             # summary report
 ```
 
-## **ویژگی‌های کلیدی سیستم:**
+## **Key System Features:**
 
-### **1. جامعیت:**
-- پوشش کامل 5 مرحله چرخه حیات
-- داده‌های فنی، عملیاتی، اقتصادی، محیط‌زیستی
-- سنسورهای 1 هرتزی تا داده‌های ماهانه
+### **1. Comprehensiveness:**
+- Full coverage of the 5 lifecycle stages
+- Technical, operational, economic and environmental data
+- 1 Hz sensors to monthly data
 
-### **2. واقع‌گرایی:**
-- مدل‌های فیزیکی برای فرآیندها
-- الگوهای خرابی واقعی
-- همبستگی‌های صحیح بین متغیرها
-- شرایط محیطی منطبق با آستین، تگزاس
+### **2. Realism:**
+- Physical models for processes
+- Realistic failure patterns
+- Correct correlations between variables
+- Environmental conditions matching Austin, Texas
 
-### **3. مقیاس‌پذیری:**
-- تولید 15.7 میلیون نقطه داده بر سنسور
-- پشتیبانی از هزاران سنسور
-- فرمت‌های خروجی متنوع
+### **3. Scalability:**
+- Generating 15.7 million data points per sensor
+- Support for thousands of sensors
+- Diverse output formats
 
-### **4. تکرارپذیری:**
-- seedهای تصادفی کنترل‌شده
-- مستندات کامل
-- قابلیت بازتولید دقیق
+### **4. Reproducibility:**
+- Controlled random seeds
+- Complete documentation
+- Exact reproducibility
 
-### **5. قابلیت استفاده:**
-- ساختار منظم داده‌ها
-- متادیتای کامل
-- نمونه‌های آماده برای استفاده
+### **5. Usability:**
+- Regular data structure
+- Complete metadata
+- Ready-to-use samples
 
-## **کاربردهای داده‌های تولید شده:**
+## **Applications of the Generated Data:**
 
-### **1. آموزش مدل‌های هوش مصنوعی:**
-- پیش‌بینی خرابی تجهیزات
-- بهینه‌سازی تولید
-- تحلیل ریسک
-- کشف الگوهای پیچیده
+### **1. Training AI models:**
+- Equipment failure prediction
+- Production optimization
+- Risk analysis
+- Discovery of complex patterns
 
-### **2. توسعه سیستم‌های دیجیتال:**
-- دوقلوی دیجیتال
-- سیستم‌های مانیتورینگ
-- داشبوردهای تحلیلی
-- سیستم‌های پیش‌بینی
+### **2. Developing digital systems:**
+- Digital twin
+- Monitoring systems
+- Analytical dashboards
+- Forecasting systems
 
-### **3. تحقیق و توسعه:**
-- تست الگوریتم‌های جدید
-- شبیه‌سازی سناریوها
-- تحلیل حساسیت
-- مطالعات امکان‌سنجی
+### **3. Research and development:**
+- Testing new algorithms
+- Scenario simulation
+- Sensitivity analysis
+- Feasibility studies
 
-### **4. آموزش و توانمندسازی:**
-- سناریوهای آموزشی
-- شبیه‌سازی عملیات
-- مدیریت بحران
-- تصمیم‌گیری در شرایط پیچیده
+### **4. Training and empowerment:**
+- Training scenarios
+- Operations simulation
+- Crisis management
+- Decision-making under complex conditions
 
 
-پروژه: **توسعه سیستم تولید داده‌های سنتتیک برای یک پالایشگاه گاز طبیعی در آستین، تگزاس**
+Project: **Development of a synthetic data generation system for a natural gas refinery in Austin, Texas**
 
 ---
 
-## **سند نیازمندی‌های نرم‌افزاری (SRS) - سیستم تولید داده‌های سنتتیک برای پالایشگاه گاز**
+## **Software Requirements Specification (SRS) - Synthetic Data Generation System for a Gas Refinery**
 
-### **1. مقدمه**
-#### **1.1 هدف**
-ایجاد یک سیستم تولید داده‌های سنتتیک جامع برای شبیه‌سازی 6 ماه عملکرد کامل یک پالایشگاه گاز طبیعی در آستین، تگزاس، با وضوح زمانی 1 ثانیه‌ای برای آموزش و تست پلتفرم ApexAsset AI.
+### **1. Introduction**
+#### **1.1 Purpose**
+Create a comprehensive synthetic data generation system to simulate 6 months of full operation of a natural gas refinery in Austin, Texas, with a 1-second time resolution for training and testing the ApexAsset AI platform.
 
-#### **1.2 دامنه**
-این سیستم داده‌های سنتتیک را برای تمام تجهیزات و فرآیندهای یک پالایشگاه گاز متوسط شامل می‌شود.
+#### **1.2 Scope**
+This system includes synthetic data for all equipment and processes of a medium-sized gas refinery.
 
-### **2. توصیف کلی**
-#### **2.1 فرآورده مشخص: پالایشگاه گاز طبیعی "Lone Star Gas Refining"**
-- **موقعیت:** آستین، تگزاس
-- **ظرفیت:** 200 میلیون فوت مکعب استاندارد در روز (MMSCFD)
-- **فرآورده‌های اصلی:** 
-  - گاز طبیعی تصفیه شده (Pipeline Quality)
-  - اتان (برای پتروشیمی)
-  - پروپان و بوتان (LPG)
-  - کاندنسیت (Natural Gasoline)
-- **فرآیندهای کلیدی:**
-  1. شیرین‌سازی (آمین، غشاء)
-  2. نم‌زدایی (جذب TEG)
-  3. جداسازی کرایوژنیک (دمای پایین)
-  4. جداسازی فراکسیون‌ها
-  5. بازیافت گوگرد
+### **2. General Description**
+#### **2.1 Specific Product: Natural Gas Refinery "Lone Star Gas Refining"**
+- **Location:** Austin, Texas
+- **Capacity:** 200 million standard cubic feet per day (MMSCFD)
+- **Main products:**
+  - Treated natural gas (Pipeline Quality)
+  - Ethane (for petrochemicals)
+  - Propane and butane (LPG)
+  - Condensate (Natural Gasoline)
+- **Key processes:**
+  1. Sweetening (amine, membrane)
+  2. Dehydration (TEG absorption)
+  3. Cryogenic separation (low temperature)
+  4. Fractionation
+  5. Sulfur recovery
 
-### **3. نیازمندی‌های ویژه**
+### **3. Specific Requirements**
 
-#### **3.1 نیازمندی‌های عملکردی**
-| ID | نیازمندی | توضیح |
+#### **3.1 Functional Requirements**
+| ID | Requirement | Description |
 |----|----------|--------|
-| FR-01 | تولید داده با فرکانس 1Hz | تمام سنسورها هر ثانیه داده تولید کنند |
-| FR-02 | شبیه‌سازی 6 ماه کامل | 182 روز × 24 ساعت × 3600 ثانیه = 15,724,800 نقطه داده بر سنسور |
-| FR-03 | پوشش تمام مراحل فرآیند | از ورود گاز خام تا خروج فرآورده‌ها |
-| FR-04 | مدل‌سازی خرابی‌ها | 5 نوع خرابی اصلی با الگوهای زمانی واقع‌گرا |
-| FR-05 | تولید داده‌های متنی | گزارش‌های شیفت، لاگ تعمیرات، آلارم‌ها |
-| FR-06 | داده‌های محیطی | دما، رطوبت، فشار جو منطقه آستین |
-| FR-07 | داده‌های اقتصادی | قیمت‌های روزانه گاز و فرآورده‌ها |
+| FR-01 | Data generation at 1 Hz | All sensors generate data every second |
+| FR-02 | Full 6-month simulation | 182 days × 24 hours × 3600 seconds = 15,724,800 data points per sensor |
+| FR-03 | Coverage of all process stages | From raw gas inlet to product outlet |
+| FR-04 | Failure modeling | 5 main failure types with realistic temporal patterns |
+| FR-05 | Text data generation | Shift reports, maintenance logs, alarms |
+| FR-06 | Environmental data | Temperature, humidity, atmospheric pressure of the Austin area |
+| FR-07 | Economic data | Daily prices of gas and products |
 
-#### **3.2 نیازمندی‌های غیرعملکردی**
-| ID | نیازمندی | توضیح |
+#### **3.2 Non-Functional Requirements**
+| ID | Requirement | Description |
 |----|----------|--------|
-| NFR-01 | کارایی | تولید 15M نقطه داده در کمتر از 1 ساعت |
-| NFR-02 | قابلیت اطمینان | داده‌ها از نظر فیزیکی معتبر باشند |
-| NFR-03 | قابلیت تکرار | seedهای تصادفی برای تکرارپذیری |
-| NFR-04 | فرمت‌های خروجی | CSV, Parquet, JSON, SQLite |
-| NFR-05 | مستندات | مستند کامل الگوهای داده و خرابی‌ها |
+| NFR-01 | Performance | Generating 15M data points in less than 1 hour |
+| NFR-02 | Reliability | Data must be physically valid |
+| NFR-03 | Reproducibility | Random seeds for reproducibility |
+| NFR-04 | Output formats | CSV, Parquet, JSON, SQLite |
+| NFR-05 | Documentation | Complete documentation of data and failure patterns |
 
-### **4. معماری سیستم**
+### **4. System Architecture**
 
-#### **4.1 اجزای سیستم**
+#### **4.1 System Components**
 ```
 ┌─────────────────────────────────────────────────┐
 │              Synthetic Data Generator           │
@@ -5024,29 +5024,29 @@ complete_asset_data/
 └─────────────────────────────────────────────────┘
 ```
 
-#### **4.2 انواع داده‌های تولیدی**
-1. **داده‌های فرآیندی (Process Data)**
-   - دما، فشار، دبی
-   - آنالیز ترکیب گاز (GC Data)
-   - سطح مخازن
+#### **4.2 Types of Generated Data**
+1. **Process Data**
+   - Temperature, pressure, flow
+   - Gas composition analysis (GC Data)
+   - Tank levels
 
-2. **داده‌های وضعیت تجهیزات (Equipment Health)**
-   - ارتعاشات
-   - دمای یاتاقان‌ها
-   - جریان موتورها
+2. **Equipment Health Data**
+   - Vibrations
+   - Bearing temperatures
+   - Motor currents
 
-3. **داده‌های محیطی (Environmental)**
-   - آب و هوای آستین
-   - شرایط جوی
+3. **Environmental Data**
+   - Austin weather
+   - Atmospheric conditions
 
-4. **داده‌های عملیاتی (Operational)**
-   - گزارش‌های شیفت
-   - دستورالعمل‌های عملیاتی
-   - رویدادهای نگهداشت
+4. **Operational Data**
+   - Shift reports
+   - Operating procedures
+   - Maintenance events
 
-### **5. جزئیات تولید داده**
+### **5. Data Generation Details**
 
-#### **5.1 پیکربندی پالایشگاه**
+#### **5.1 Refinery Configuration**
 ```python
 PLANT_CONFIG = {
     "location": {
@@ -5085,56 +5085,56 @@ PLANT_CONFIG = {
 }
 ```
 
-#### **5.2 الگوهای خرابی**
+#### **5.2 Failure Patterns**
 ```python
 FAILURE_MODES = {
     "fouling": {
-        "description": "رسوب‌گیری در مبدل‌های حرارتی",
+        "description": "Fouling in heat exchangers",
         "affected_equipment": ["exchangers", "reboilers"],
         "development_time": "7-30 days",
         "symptoms": {
-            "delta_p": "increase_gradual",  # افزایش تدریجی اختلاف فشار
-            "efficiency": "decrease_gradual",  # کاهش تدریجی راندمان
-            "outlet_temp": "decrease_slow"  # کاهش آهسته دمای خروجی
+            "delta_p": "increase_gradual",  # gradual increase in pressure difference
+            "efficiency": "decrease_gradual",  # gradual decrease in efficiency
+            "outlet_temp": "decrease_slow"  # slow decrease in outlet temperature
         }
     },
     "bearing_wear": {
-        "description": "سایش یاتاقان‌های کمپرسور",
+        "description": "Compressor bearing wear",
         "affected_equipment": ["compressors", "pumps"],
         "development_time": "14-60 days",
         "symptoms": {
-            "vibration": "increase_oscillating",  # افزایش نوسانی ارتعاش
-            "temperature": "increase_steady",  # افزایش پیوسته دما
-            "noise": "increase_gradual"  # افزایش تدریجی نویز
+            "vibration": "increase_oscillating",  # oscillating increase in vibration
+            "temperature": "increase_steady",  # steady increase in temperature
+            "noise": "increase_gradual"  # gradual increase in noise
         }
     },
     "corrosion": {
-        "description": "خوردگی در خطوط لوله",
+        "description": "Corrosion in pipelines",
         "affected_equipment": ["pipelines", "vessels"],
         "development_time": "90-180 days",
         "symptoms": {
-            "wall_thickness": "decrease_steady",  # کاهش پیوسته ضخامت
-            "leak_indication": "intermittent",  # نشانه‌های نشت متناوب
-            "product_purity": "decrease_slow"  # کاهش آهسته خلوص محصول
+            "wall_thickness": "decrease_steady",  # steady decrease in thickness
+            "leak_indication": "intermittent",  # intermittent leak indications
+            "product_purity": "decrease_slow"  # slow decrease in product purity
         }
     },
     "catalyst_deactivation": {
-        "description": "غیرفعال شدن کاتالیست",
+        "description": "Catalyst deactivation",
         "affected_equipment": ["reactors"],
         "development_time": "30-90 days",
         "symptoms": {
-            "conversion": "decrease_exponential",  # کاهش نمایی تبدیل
-            "pressure_drop": "increase_rapid",  # افزایش سریع افت فشار
-            "byproducts": "increase_steady"  # افزایش پیوسته محصولات جانبی
+            "conversion": "decrease_exponential",  # exponential decrease in conversion
+            "pressure_drop": "increase_rapid",  # rapid increase in pressure drop
+            "byproducts": "increase_steady"  # steady increase in byproducts
         }
     },
     "instrument_drift": {
-        "description": "درفت سنسورها",
+        "description": "Sensor drift",
         "affected_equipment": ["all_instruments"],
         "development_time": "60-180 days",
         "symptoms": {
-            "reading_error": "linear_drift",  # خطای خطی در قرائت
-            "calibration_needed": "periodic"  # نیاز دوره‌ای به کالیبراسیون
+            "reading_error": "linear_drift",  # linear error in readings
+            "calibration_needed": "periodic"  # periodic need for calibration
         }
     }
 }
@@ -5142,17 +5142,17 @@ FAILURE_MODES = {
 
 ---
 
-## **کد تولید کننده داده‌های سنتتیک (Data Generator)**
+## **Synthetic Data Generator Code (Data Generator)**
 
-### **کنسپت کلی:**
-این کد یک سیستم تولید داده‌های سنتتیک پیچیده ایجاد می‌کند که:
-1. داده‌های پایه فرآیندی بر اساس مدل‌های فیزیکی تولید می‌کند
-2. خرابی‌های واقع‌گرا با الگوهای زمانی پیچیده اضافه می‌کند
-3. داده‌های محیطی منطبق با آستین، تگزاس تولید می‌کند
-4. داده‌های متنی عملیاتی می‌سازد
-5. همه را در فرمت‌های مختلف خروجی می‌دهد
+### **General concept:**
+This code creates a sophisticated synthetic data generation system that:
+1. Generates base process data based on physical models
+2. Adds realistic failures with complex temporal patterns
+3. Generates environmental data matching Austin, Texas
+4. Creates operational text data
+5. Outputs everything in various formats
 
-### **فایل‌های اصلی پروژه:**
+### **Main project files:**
 
 #### **1. main_generator.py**
 ```python
@@ -6125,9 +6125,9 @@ if __name__ == "__main__":
 
 ---
 
-## **راهنمای اجرا و استفاده:**
+## **Execution and Usage Guide:**
 
-### **نصب و راه‌اندازی:**
+### **Installation and setup:**
 ```bash
 # 1. Clone or create project directory
 mkdir synthetic_gas_plant_data
@@ -6147,41 +6147,41 @@ pip install numpy pandas pyyaml pyarrow matplotlib
 python main_generator.py
 ```
 
-### **خروجی‌های تولید شده:**
-سیستم فایل‌های زیر را تولید می‌کند:
+### **Generated outputs:**
+The system generates the following files:
 
 ```
 synthetic_data_output/
 ├── csv_files/
-│   └── plant_data_main.csv          # 100,000 نمونه اول (برای دمو)
-├── plant_data_full.parquet          # کل داده‌ها (15.7 میلیون نقطه)
-├── gas_composition.csv              # داده‌های ترکیب گاز
-├── failure_events.csv               # رویدادهای خرابی
-├── gas_plant_data.db                # پایگاه داده SQLite کامل
+│   └── plant_data_main.csv          # first 100,000 samples (for demo)
+├── plant_data_full.parquet          # all data (15.7 million points)
+├── gas_composition.csv              # gas composition data
+├── failure_events.csv               # failure events
+├── gas_plant_data.db                # complete SQLite database
 ├── text_data/
 │   ├── shift_reports.csv
 │   ├── work_orders.csv
 │   └── alarm_logs.csv
-├── sample_data_24h.csv              # 24 ساعت اول داده
-├── metadata.json                    # متادیتای کامل
-└── generation_summary.txt           # گزارش خلاصه
+├── sample_data_24h.csv              # first 24 hours of data
+├── metadata.json                    # complete metadata
+└── generation_summary.txt           # summary report
 ```
 
-### **ویژگی‌های کلیدی سیستم:**
+### **Key System Features:**
 
-1. **داده‌های واقع‌گرا:** الگوهای فصلی، روزانه و ساعتی منطبق با آستین، تگزاس
-2. **خرابی‌های پیچیده:** 5 نوع خرابی با الگوهای پیشرونده واقعی
-3. **فرمت‌های متنوع:** CSV، Parquet، JSON، SQLite
-4. **تکرارپذیری:** seedهای تصادفی ثابت
-5. **مقیاس‌پذیری:** امکان افزایش دوره زمانی یا تعداد سنسورها
-6. **مستندات کامل:** متادیتا و گزارش خلاصه
+1. **Realistic data:** Seasonal, daily and hourly patterns matching Austin, Texas
+2. **Complex failures:** 5 failure types with realistic progressive patterns
+3. **Diverse formats:** CSV, Parquet, JSON, SQLite
+4. **Reproducibility:** Fixed random seeds
+5. **Scalability:** Ability to increase the time period or the number of sensors
+6. **Complete documentation:** Metadata and summary report
 
-### **کاربردهای داده‌های تولید شده:**
+### **Applications of the Generated Data:**
 
-1. **آموزش مدل‌های هوش مصنوعی:** برای پیش‌بینی خرابی، بهینه‌سازی فرآیند
-2. **توسعه سیستم‌های مانیتورینگ:** تست سیستم‌های SCADA و HMI
-3. **شبیه‌سازی عملکرد:** تست استراتژی‌های کنترل و عملیاتی
-4. **تحقیق و توسعه:** توسعه الگوریتم‌های جدید بدون نیاز به داده واقعی
-5. **آموزش پرسنل:** ایجاد سناریوهای آموزشی واقع‌گرا
+1. **Training AI models:** For failure prediction, process optimization
+2. **Developing monitoring systems:** Testing SCADA and HMI systems
+3. **Performance simulation:** Testing control and operational strategies
+4. **Research and development:** Developing new algorithms without needing real data
+5. **Personnel training:** Creating realistic training scenarios
 
-این سیستم کاملاً منطبق با نیازهای پلتفرم ApexAsset AI بوده و می‌تواند برای آموزش، تست و اعتبارسنجی مدل‌های هوش مصنوعی در تمام مراحل چرخه حیات دارایی مورد استفاده قرار گیرد.
+This system is fully aligned with the needs of the ApexAsset AI platform and can be used for training, testing and validating AI models across all stages of the asset lifecycle.

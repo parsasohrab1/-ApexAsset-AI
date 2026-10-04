@@ -2,7 +2,7 @@
 
 ## ✅ Authentication System Implemented
 
-سیستم احراز هویت کامل با ویژگی‌های زیر پیاده‌سازی شده است:
+A complete authentication system has been implemented with the following features:
 
 ### Backend Features:
 - ✅ JWT Authentication (Access & Refresh Tokens)
@@ -14,12 +14,12 @@
 - ✅ 8 User Roles (Field Operator, Engineer, Manager, etc.)
 
 ### Frontend Features:
-- ✅ Login Page با Demo Credentials
-- ✅ Register Page با Role Selection
-- ✅ Auth Context برای Global State
+- ✅ Login Page with Demo Credentials
+- ✅ Register Page with Role Selection
+- ✅ Auth Context for Global State
 - ✅ Protected Routes
 - ✅ Automatic Token Refresh
-- ✅ Navbar با User Info و Logout
+- ✅ Navbar with User Info and Logout
 - ✅ Responsive Design
 
 ## 🚀 Quick Start
@@ -60,7 +60,7 @@ Frontend will run on: `http://localhost:5173`
 
 ## 🔐 Demo Users
 
-سه کاربر آزمایشی به‌صورت خودکار ساخته شده‌اند:
+Three demo users are created automatically:
 
 | Email | Password | Role |
 |-------|----------|------|
@@ -74,9 +74,9 @@ Frontend will run on: `http://localhost:5173`
 ApexAssetAi/
 ├── backend/
 │   ├── app/
-│   │   ├── main.py              # FastAPI app با auth routes
+│   │   ├── main.py              # FastAPI app with auth routes
 │   │   ├── models.py            # Pydantic models (User, Token, etc.)
-│   │   ├── auth.py              # JWT و RBAC utilities
+│   │   ├── auth.py              # JWT and RBAC utilities
 │   │   ├── database.py          # In-memory user database
 │   │   └── routes/
 │   │       └── auth_routes.py   # Auth endpoints
@@ -86,33 +86,33 @@ ApexAssetAi/
 └── frontend/
     ├── src/
     │   ├── components/
-    │   │   ├── Navbar.tsx       # Navigation با logout
+    │   │   ├── Navbar.tsx       # Navigation with logout
     │   │   └── ProtectedRoute.tsx
     │   ├── contexts/
     │   │   └── AuthContext.tsx  # Global auth state
     │   ├── pages/
-    │   │   ├── Login.tsx        # صفحه ورود
-    │   │   ├── Register.tsx     # صفحه ثبت‌نام
-    │   │   └── Dashboard.tsx    # داشبورد اصلی (protected)
+    │   │   ├── Login.tsx        # Login page
+    │   │   ├── Register.tsx     # Registration page
+    │   │   └── Dashboard.tsx    # Main dashboard (protected)
     │   ├── services/
     │   │   ├── auth.ts          # Auth service (login, register, etc.)
-    │   │   └── api.ts           # API client با token refresh
+    │   │   └── api.ts           # API client with token refresh
     │   ├── App.tsx              # Routing
-    │   └── main.tsx             # App entry با providers
+    │   └── main.tsx             # App entry with providers
     └── package.json
 ```
 
 ## 🔒 Security Features
 
 ### Backend:
-- Password hashing با bcrypt
-- JWT tokens با expiration
-- Refresh token برای security
+- Password hashing with bcrypt
+- JWT tokens with expiration
+- Refresh token for security
 - Role-based middleware
 - CORS configuration
 
 ### Frontend:
-- Token storage در localStorage
+- Token storage in localStorage
 - Automatic token refresh
 - Protected routes
 - Logout clears all tokens
@@ -120,48 +120,48 @@ ApexAssetAi/
 ## 📝 API Endpoints
 
 ### Authentication:
-- `POST /auth/register` - ثبت‌نام کاربر جدید
-- `POST /auth/login` - ورود و دریافت tokens
-- `POST /auth/refresh` - تمدید access token
-- `GET /auth/me` - اطلاعات کاربر جاری
-- `POST /auth/logout` - خروج از سیستم
+- `POST /auth/register` - Register a new user
+- `POST /auth/login` - Log in and receive tokens
+- `POST /auth/refresh` - Renew the access token
+- `GET /auth/me` - Current user information
+- `POST /auth/logout` - Log out of the system
 
 ### Protected Endpoints:
-- `GET /dashboard` - داده‌های داشبورد (نیاز به احراز هویت)
-- `GET /srs` - محتوای SRS (عمومی)
+- `GET /dashboard` - Dashboard data (requires authentication)
+- `GET /srs` - SRS content (public)
 
 ## 🎯 Next Steps
 
-برای تکمیل پروژه، مراحل بعدی:
+To complete the project, the next steps:
 
-1. **Database Integration**: جایگزینی in-memory database با PostgreSQL
-2. **Email Verification**: احراز هویت ایمیل
-3. **Password Reset**: فراموشی رمز عبور
-4. **User Profile**: مدیریت پروفایل کاربر
-5. **Audit Logs**: ثبت فعالیت‌های کاربران
-6. **Rate Limiting**: محدودسازی درخواست‌ها
-7. **Testing**: Unit و Integration tests
+1. **Database Integration**: Replace the in-memory database with PostgreSQL
+2. **Email Verification**: Email authentication
+3. **Password Reset**: Forgot password
+4. **User Profile**: User profile management
+5. **Audit Logs**: Logging user activities
+6. **Rate Limiting**: Limiting requests
+7. **Testing**: Unit and Integration tests
 
 ## 🐛 Troubleshooting
 
 ### Backend Issues:
 ```bash
-# اگر خطای import گرفتید:
+# If you get an import error:
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# اگر پورت اشغال است:
+# If the port is busy:
 uvicorn app.main:app --reload --port 8001
 ```
 
 ### Frontend Issues:
 ```bash
-# اگر خطای dependency گرفتید:
+# If you get a dependency error:
 rm -rf node_modules package-lock.json
 npm install
 
-# اگر پورت اشغال است:
-# در vite.config.ts تغییر دهید
+# If the port is busy:
+# Change it in vite.config.ts
 ```
 
 ## 📚 Documentation
@@ -171,4 +171,4 @@ npm install
 
 ---
 
-**تمام ویژگی‌های Authentication پیاده‌سازی شدند! ✅**
+**All Authentication features have been implemented! ✅**

@@ -35,48 +35,48 @@ The system encompasses five interconnected modules:
 - OPC UA: Industrial interoperability standard
 - NIST Framework: Cybersecurity framework
 
-## **1.5 تثبیت نیازمندی‌ها و دامنه (SRS نهایی، اولویت‌بندی)**
+## **1.5 Finalizing Requirements and Scope (Final SRS, Prioritization)**
 
-### **دامنه نهایی (Scope)**
-**در محدوده (In-Scope):**
-- ماژول‌های پنج‌گانه چرخه عمر دارایی (Exploration, Development, Production, Maintenance, Decommissioning)
-- قابلیت‌های مشترک پلتفرم (داشبوردها، گزارش‌گیری، اعلان‌ها، همکاری تیمی)
-- الزامات غیرعملکردی (Performance, Security, Reliability, Usability, Scalability, Maintainability, Portability)
-- یکپارچه‌سازی استاندارد با سیستم‌های صنعتی (SCADA, Historian, ERP, CMMS)
+### **Final Scope**
+**In-Scope:**
+- The five asset lifecycle modules (Exploration, Development, Production, Maintenance, Decommissioning)
+- Shared platform capabilities (dashboards, reporting, notifications, team collaboration)
+- Non-functional requirements (Performance, Security, Reliability, Usability, Scalability, Maintainability, Portability)
+- Standard integration with industrial systems (SCADA, Historian, ERP, CMMS)
 
-**خارج از محدوده (Out-of-Scope) برای نسخه اولیه:**
-- پیاده‌سازی کامل همه مدل‌های AI ذکرشده (تنها مدل‌های اولویت بالا در فازهای اولیه)
-- پشتیبانی از همه پروتکل‌های صنعتی کم‌اولویت (مانند Serial RS-485)
-- اپلیکیشن‌های موبایل کامل (در فازهای پایانی برنامه‌ریزی شده)
+**Out-of-Scope for the initial version:**
+- Full implementation of all the AI models mentioned (only high-priority models in the early phases)
+- Support for all low-priority industrial protocols (such as Serial RS-485)
+- Full mobile applications (planned for the final phases)
 
-### **اولویت‌بندی نهایی (MoSCoW)**
-**Must (الزامی برای نسخه اولیه):**
-- احراز هویت و RBAC (SEC-001/002)
-- داشبوردهای پایه و فریم‌ورک ویجت‌ها (FR-COM-001)
-- پایش بلادرنگ و هشدارها (FR-PROD-001, FR-COM-003)
-- گزارش‌گیری زمان‌بندی‌شده و خروجی استاندارد (FR-COM-004)
-- مسیر داده زمان‌سری و حداقل یکپارچه‌سازی داده‌ای صنعتی (DS-001, SI-001, SI-003)
+### **Final Prioritization (MoSCoW)**
+**Must (mandatory for the initial version):**
+- Authentication and RBAC (SEC-001/002)
+- Basic dashboards and widget framework (FR-COM-001)
+- Real-time monitoring and alerts (FR-PROD-001, FR-COM-003)
+- Scheduled reporting and standard output (FR-COM-004)
+- Time-series data path and minimal industrial data integration (DS-001, SI-001, SI-003)
 
-**Should (مهم اما قابل موکول):**
-- تحلیل‌های کلیدی تولید و نگهداشت (FR-PROD-002/003, FR-MNT-001/002)
-- قابلیت‌های اقتصادی حیاتی (FR-DEV-004)
-- ابزارهای اصلی Exploration (FR-EXP-001/002)
-- سازگاری‌های مقیاس‌پذیری و قابلیت حمل سطح بالا (SCA-001/002, PORT-001/002)
+**Should (important but deferrable):**
+- Key production and maintenance analytics (FR-PROD-002/003, FR-MNT-001/002)
+- Critical economic capabilities (FR-DEV-004)
+- Core Exploration tools (FR-EXP-001/002)
+- High-level scalability and portability compatibility (SCA-001/002, PORT-001/002)
 
-**Could (در صورت زمان/منابع):**
-- ویژگی‌های پیشرفته 3D و Visualization (COM-002.4, EXP-001.5)
-- مدل‌های AI پیشرفته و بهینه‌سازی‌های سطح بالا (PROD-005, DEV-005)
-- قابلیت‌های همکاری گسترده‌تر (COM-005.3/005.4)
+**Could (if time/resources permit):**
+- Advanced 3D and Visualization features (COM-002.4, EXP-001.5)
+- Advanced AI models and high-level optimizations (PROD-005, DEV-005)
+- Broader collaboration capabilities (COM-005.3/005.4)
 
-**Won’t (خارج از نسخه اولیه):**
-- تمامی پروتکل‌های کم‌کاربرد صنعتی (HI-006)
-- تضمین همه استانداردهای صنعتی به‌صورت کامل در نسخه اول (برخی به‌صورت تدریجی)
+**Won’t (outside the initial version):**
+- All rarely used industrial protocols (HI-006)
+- Full guarantee of all industry standards in the first version (some will be gradual)
 
-### **معیارهای پذیرش نسخه اولیه**
-- زمان بارگذاری داشبورد < 3 ثانیه (PERF-001)
-- نرخ بروزرسانی داده 1 ثانیه (PERF-002)
-- احراز هویت و کنترل دسترسی نقش‌محور فعال
-- حداقل یک جریان کامل End-to-End: داده → داشبورد → هشدار → گزارش
+### **Acceptance Criteria of the Initial Version**
+- Dashboard load time < 3 seconds (PERF-001)
+- Data update rate of 1 second (PERF-002)
+- Authentication and role-based access control active
+- At least one complete End-to-End flow: data → dashboard → alert → report
 
 ## **2. Overall Description**
 
@@ -908,42 +908,42 @@ High Availability:
   - Disaster recovery site
 ```
 
-## **4.4 معماری فنی و طراحی UI/UX (Frontend/Backend/Data)**
+## **4.4 Technical Architecture and UI/UX Design (Frontend/Backend/Data)**
 
-### **4.4.1 معماری Frontend**
-- **فریم‌ورک و ساختار:** React 18 + TypeScript، معماری ماژولار (feature-based)
-- **State Management:** Redux Toolkit برای داده‌های سراسری، React Query برای داده‌های سرور
-- **Routing:** React Router v6 با lazy loading برای ماژول‌ها
-- **Styling:** سیستم تم (Light/Dark/High-Contrast) و طراحی مبتنی بر توکن‌ها
-- **Visualization:** نمودارها (Recharts/D3)، نقشه‌ها (Mapbox/Deck.gl)، 3D (Three.js)
-- **Performance:** کَش سمت کلاینت، virtualization برای لیست‌های بزرگ، code splitting
+### **4.4.1 Frontend Architecture**
+- **Framework and structure:** React 18 + TypeScript, modular (feature-based) architecture
+- **State Management:** Redux Toolkit for global data, React Query for server data
+- **Routing:** React Router v6 with lazy loading for modules
+- **Styling:** Theme system (Light/Dark/High-Contrast) and token-based design
+- **Visualization:** Charts (Recharts/D3), maps (Mapbox/Deck.gl), 3D (Three.js)
+- **Performance:** Client-side caching, virtualization for large lists, code splitting
 
-### **4.4.2 معماری Backend**
-- **الگو:** Microservices + API Gateway
-- **خدمات کلیدی:** Auth, Data Ingestion, Time-Series, Spatial, Reporting, Notification
-- **ارتباطات:** REST/GraphQL برای APIهای عمومی، WebSocket برای استریمینگ بلادرنگ
-- **امنیت:** OAuth2/SAML، RBAC، ثبت وقایع امنیتی و ردیابی کامل
-- **Observability:** لاگ ساخت‌یافته، متریک‌ها، tracing توزیع‌شده
+### **4.4.2 Backend Architecture**
+- **Pattern:** Microservices + API Gateway
+- **Key services:** Auth, Data Ingestion, Time-Series, Spatial, Reporting, Notification
+- **Communication:** REST/GraphQL for public APIs, WebSocket for real-time streaming
+- **Security:** OAuth2/SAML, RBAC, security event logging and full tracing
+- **Observability:** Structured logging, metrics, distributed tracing
 
-### **4.4.3 معماری داده (Data)**
-- **Time-Series:** InfluxDB/TimescaleDB برای داده‌های 1Hz
-- **Spatial:** PostGIS برای داده‌های مکانی و تحلیل جغرافیایی
-- **Graph:** Neo4j برای روابط دارایی‌ها و سلسله‌مراتب
-- **Document/Search:** MongoDB + Elasticsearch برای اسناد و جست‌وجوی سریع
-- **Storage:** Hot/Warm/Cold tiers، نگهداشت بلندمدت، پارتیشن‌بندی زمانی
-- **Pipelines:** ETL/ELT با پردازش جریان داده برای پایش بلادرنگ
+### **4.4.3 Data Architecture**
+- **Time-Series:** InfluxDB/TimescaleDB for 1Hz data
+- **Spatial:** PostGIS for spatial data and geographic analysis
+- **Graph:** Neo4j for asset relationships and hierarchy
+- **Document/Search:** MongoDB + Elasticsearch for documents and fast search
+- **Storage:** Hot/Warm/Cold tiers, long-term retention, time partitioning
+- **Pipelines:** ETL/ELT with stream processing for real-time monitoring
 
-### **4.4.4 طراحی UI/UX**
-- **اصول طراحی:** سادگی، قابلیت پیش‌بینی، کاهش کلیک‌های حیاتی
-- **اطلاعات‌محور:** داشبوردهای نقش‌محور، فیلترهای واضح، Drill-down منطقی
-- **پاسخ‌گرا:** سازگاری کامل با دسکتاپ/تبلت/موبایل
-- **هشدار و وضعیت:** کد رنگ استاندارد (RAG)، اعلان‌های قابل پیگیری
-- **خطاها و وضعیت‌ها:** Empty/Loading/Error states تعریف‌شده و یکپارچه
+### **4.4.4 UI/UX Design**
+- **Design principles:** Simplicity, predictability, fewer critical clicks
+- **Information-driven:** Role-based dashboards, clear filters, logical Drill-down
+- **Responsive:** Full compatibility with desktop/tablet/mobile
+- **Alerts and status:** Standard color code (RAG), trackable notifications
+- **Errors and states:** Defined and unified Empty/Loading/Error states
 
-### **4.4.5 Design System و دسترس‌پذیری**
-- **کامپوننت‌های پایه:** Table, Chart, Form, Modal, Card, KPI Tile
-- **استانداردها:** WCAG 2.1 AA، کنتراست مناسب، پشتیبانی از کیبورد
-- **قابلیت بومی‌سازی:** چندزبانه و راست‌به‌چپ (RTL) در نسخه‌های منطقه‌ای
+### **4.4.5 Design System and Accessibility**
+- **Base components:** Table, Chart, Form, Modal, Card, KPI Tile
+- **Standards:** WCAG 2.1 AA, appropriate contrast, keyboard support
+- **Localization:** Multilingual and right-to-left (RTL) in regional versions
 
 ## **5. Dashboard Design Specifications**
 
